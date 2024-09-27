@@ -23,23 +23,34 @@ def filtrar_colunas(dataframe: pd.DataFrame, colunas: list):
     nao_existe = []
     for col in colunas:
         if not col in dataframe.columns:
-            nao_eiste.append(col)
+            nao_existe.append(col)
     
-    if len(nao_existe)!=0: #checando se a lista nao_existe está vazia
+    if len(nao_existe)!=0:
         raise ValueError(f"Erro: As colunas {nao_existe} não estão no DataFrame.")
     
-    colunas = ['Date', 'Price']
     dataframe = dataframe[colunas]
     return dataframe
 
 df = filtrar_colunas(df, ['Date', 'Price'])
 
 
-df['Date'] = pd.to_datetime(df['Date'])
-df['Price'] = df['Price'].str.replace(',', '')
-df['Price'] = pd.to_numeric(df['Price'])
+def converter_dados(dataframe: pd.DataFrame) -> pd.DataFrame:
+    """
+    Esta função realiza as seguintes operações no DataFrame:
+    1. Converte a coluna 'Date' para o formato datetime.
+    2. Remove as vírgulas da coluna 'Price' e converte os valores para números.
+    """
 
-print(df.isnull().sum()) # não há dados vazios.
+    dataframe['Date'] = pd.to_datetime(dataframe['Date'])
+
+    dataframe['Price'] = dataframe['Price'].str.replace(',', '', regex=True)
+    dataframe['Price'] = pd.to_numeric(dataframe['Price'])
+    
+    return dataframe
+
+df = converter_dados(df)
+
+print(df.isnull().sum() == 0) # não há dados vazios.
 
 #removendo linhas com datas duplicadas (se houver)
 df['Date'] = df['Date'].drop_duplicates()
@@ -110,11 +121,30 @@ def alterando_nome_e_indice(dataframe: pd.DataFrame):
 halving_1 = alterando_nome_e_indice(halving_1)
 halving_2 = alterando_nome_e_indice(halving_2)
 halving_3 = alterando_nome_e_indice(halving_3)
+
+
+def indices_max_e_min(dataframe: pd.DataFrame):
+    indice_maximo = dataframe['Price'].idxmax()
+    indice_minimo = dataframe['Price'].idxmin()
+    return indice_maximo, indice_minimo
+
+indice_maximo_1, indice_minimo_1 = indices_max_e_min(halving_1)
+indice_maximo_2, indice_minimo_2 = indices_max_e_min(halving_2)
+indice_maximo_3, indice_minimo_3 = indices_max_e_min(halving_3)
+
+def aumento_percentual(dataframe: pd.DataFrame):
+    valor_inicial = dataframe['Price'].iloc[0]
+    dataframe['aumento_percentual'] = dataframe['Price'].apply(lambda x: (x/valor_inicial - 1)*100)
+    return dataframe
+
+halving_1 = aumento_percentual(halving_1)
+halving_2 = aumento_percentual(halving_2)
+halving_3 = aumento_percentual(halving_3)
 print(halving_3)
 
 
 
-#halving_3.plot.line()
+#halving_2.plot.line()
 #plot.show()
 #plot.savefig("meuplot.png", dpi=300)
 
