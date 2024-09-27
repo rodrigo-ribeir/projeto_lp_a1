@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plot
+from matplotlib import pyplot as plt
 
 def ler_arquivo(arquivo, separador=',', encoding='utf-8'):
     """
@@ -88,7 +88,7 @@ def divisao_por_data(data1, data2):
 halving_1 = divisao_por_data("11/28/2012", "07/09/2016")
 halving_2 = divisao_por_data("07/09/2016", "05/11/2020")
 halving_3 = divisao_por_data("05/11/2020", "04/19/2024")
-#o banco de dados desponível para dowload vai ate 24/03/2024
+#o banco de dados desponível para dowload vai até 24/03/2024
 
 def ordenando_indices(frame: pd.DataFrame):
     frame = frame.set_index('Date')
@@ -115,22 +115,13 @@ halving_3 = dias_apos_halving(halving_3)
 
 def alterando_nome_e_indice(dataframe: pd.DataFrame):
     dataframe = dataframe.rename(columns={'Date': 'dias_apos_halving'})
-    dataframe = dataframe.set_index('dias_apos_halving')
+    #dataframe = dataframe.set_index('dias_apos_halving')
     return dataframe
 
 halving_1 = alterando_nome_e_indice(halving_1)
 halving_2 = alterando_nome_e_indice(halving_2)
 halving_3 = alterando_nome_e_indice(halving_3)
 
-
-def indices_max_e_min(dataframe: pd.DataFrame):
-    indice_maximo = dataframe['Price'].idxmax()
-    indice_minimo = dataframe['Price'].idxmin()
-    return indice_maximo, indice_minimo
-
-indice_maximo_1, indice_minimo_1 = indices_max_e_min(halving_1)
-indice_maximo_2, indice_minimo_2 = indices_max_e_min(halving_2)
-indice_maximo_3, indice_minimo_3 = indices_max_e_min(halving_3)
 
 def aumento_percentual(dataframe: pd.DataFrame):
     valor_inicial = dataframe['Price'].iloc[0]
@@ -140,11 +131,34 @@ def aumento_percentual(dataframe: pd.DataFrame):
 halving_1 = aumento_percentual(halving_1)
 halving_2 = aumento_percentual(halving_2)
 halving_3 = aumento_percentual(halving_3)
-print(halving_3)
 
 
+def maior_serie(*series: pd.Series):
+    maior_tamanho = 0
+    serie_retorno = None
+    for serie_atual in series:
+        tamanho_atual = len(serie_atual)
+        if(tamanho_atual > maior_tamanho):
+            maior_tamanho = tamanho_atual
+            serie_retorno = serie_atual
+    return serie_retorno
 
-#halving_2.plot.line()
+
+mais_dias_apos_halving = maior_serie(halving_1['dias_apos_halving'],\
+    halving_2['dias_apos_halving'], halving_3['dias_apos_halving'])
+
+def adicionar_coluna(dataframe: pd.DataFrame, serie: pd.Series, nome: str) -> pd.DataFrame:
+    dataframe[nome] = serie
+    return dataframe
+
+df_final = pd.DataFrame()
+adicionar_coluna(df_final, mais_dias_apos_halving, 'Dias após halving')
+adicionar_coluna(df_final, halving_1['aumento_percentual'], 'Ciclo 1')
+adicionar_coluna(df_final, halving_2['aumento_percentual'], 'Ciclo 2')
+adicionar_coluna(df_final, halving_3['aumento_percentual'], 'Ciclo 3')
+
+print(df_final)
+
+#halving_2.plt.line()
 #plot.show()
 #plot.savefig("meuplot.png", dpi=300)
-
