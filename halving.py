@@ -88,8 +88,33 @@ def ordenando_indices(frame: pd.DataFrame):
 halving_1 = ordenando_indices(halving_1)
 halving_2 = ordenando_indices(halving_2)
 halving_3 = ordenando_indices(halving_3)
+
+def dias_apos_halving(dataframe: pd.DataFrame):
+    """
+    Esta função altera a coluna 'Date' para o período de tempo entre \
+        a data da linha atual e a data inicial (primeira linha)"
+    """
+    data_inicial = dataframe['Date'].iloc[0]
+    dataframe['Date'] = dataframe['Date'].apply(lambda d: (d - data_inicial).days)
+    return dataframe
+
+halving_1 = dias_apos_halving(halving_1)
+halving_2 = dias_apos_halving(halving_2)
+halving_3 = dias_apos_halving(halving_3)
+
+def alterando_nome_e_indice(dataframe: pd.DataFrame):
+    dataframe = dataframe.rename(columns={'Date': 'dias_apos_halving'})
+    dataframe = dataframe.set_index('dias_apos_halving')
+    return dataframe
+
+halving_1 = alterando_nome_e_indice(halving_1)
+halving_2 = alterando_nome_e_indice(halving_2)
+halving_3 = alterando_nome_e_indice(halving_3)
 print(halving_3)
 
-halving_3.plot.line(x='Date', y='Price')
+
+
+#halving_3.plot.line()
+#plot.show()
 #plot.savefig("meuplot.png", dpi=300)
 
