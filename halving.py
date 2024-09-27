@@ -2,16 +2,33 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plot
 
-df = pd.read_csv('bitcoin_historical_data.csv', sep=',')
+#df = pd.read_csv('bitcoin_historical_data.csv', sep=',')
+
+def ler_arquivo(arquivo, separador=',', encoding='utf-8'):
+    """
+    Ler arquivo csv com pandas
+    
+    Certifique-se de que está no diretório correto
+    """
+    
+    try:
+        dataframe = pd.read_csv(arquivo, sep=separador,encoding = encoding)
+        return dataframe
+    except FileNotFoundError:
+        print(f"Arquivo {arquivo} não encontrado.")
+    except pd.errors.EmptyDataError:
+        print(f"Erro: O arquivo {arquivo} está vazio. Certifique-se de que está no diretório correto")
+    
+df = ler_arquivo('bitcoin_historical_data.csv')
+    
 
 #print(df.columns)
-columns = ['Date', 'Price']
-df = df[columns]
+colunas = ['Date', 'Price']
+df = df[colunas]
 
 df['Date'] = pd.to_datetime(df['Date'])
 df['Price'] = df['Price'].str.replace(',', '')
 df['Price'] = pd.to_numeric(df['Price'])
-
 
 print(df.isnull().sum()) # não há dados vazios.
 
@@ -65,4 +82,5 @@ halving_3 = ordenando_indices(halving_3)
 print(halving_3)
 
 halving_3.plot.line(x='Date', y='Price')
-plot.savefig("meuplot.png", dpi=300)
+#plot.savefig("meuplot.png", dpi=300)
+
