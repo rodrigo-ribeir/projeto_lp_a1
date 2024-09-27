@@ -2,29 +2,38 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plot
 
-#df = pd.read_csv('bitcoin_historical_data.csv', sep=',')
-
 def ler_arquivo(arquivo, separador=',', encoding='utf-8'):
     """
     Ler arquivo csv com pandas
-    
-    Certifique-se de que está no diretório correto
     """
     
     try:
         dataframe = pd.read_csv(arquivo, sep=separador,encoding = encoding)
         return dataframe
     except FileNotFoundError:
-        print(f"Arquivo {arquivo} não encontrado.")
+        print(f'Arquivo {arquivo} não encontrado.')
     except pd.errors.EmptyDataError:
-        print(f"Erro: O arquivo {arquivo} está vazio. Certifique-se de que está no diretório correto")
+        print(f'Erro: O arquivo {arquivo} está vazio.\
+            Certifique-se de que está no diretório correto')
     
 df = ler_arquivo('bitcoin_historical_data.csv')
     
 
-#print(df.columns)
-colunas = ['Date', 'Price']
-df = df[colunas]
+def filtrar_colunas(dataframe: pd.DataFrame, colunas: list):
+    nao_existe = []
+    for col in colunas:
+        if not col in dataframe.columns:
+            nao_eiste.append(col)
+    
+    if len(nao_existe)!=0: #checando se a lista nao_existe está vazia
+        raise ValueError(f"Erro: As colunas {nao_existe} não estão no DataFrame.")
+    
+    colunas = ['Date', 'Price']
+    dataframe = dataframe[colunas]
+    return dataframe
+
+df = filtrar_colunas(df, ['Date', 'Price'])
+
 
 df['Date'] = pd.to_datetime(df['Date'])
 df['Price'] = df['Price'].str.replace(',', '')
