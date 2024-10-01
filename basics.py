@@ -115,7 +115,7 @@ def converter_dados(df: pd.DataFrame) -> pd.DataFrame:
     - `Date`:
         - Transforma a string em um objeto datetime do pandas
 
-    - `Price` / `High` / `Low`:
+    - `Open` / `Price` / `High` / `Low`:
         - Remove as vírgulas e converte os valores para números.
     - `Vol.`:
         - Células vazias são preenchidas com 0 e transforma os
@@ -146,6 +146,9 @@ def converter_dados(df: pd.DataFrame) -> pd.DataFrame:
     columns = df.columns
     if 'Date' in columns:
         df['Date'] = pd.to_datetime(df['Date'])
+    if 'Open' in columns:
+        df['Open'] = df['Open'].replace(',', '', regex=True)
+        df['Open'] = pd.to_numeric(df['Open'])
     if 'Price' in columns:
         df['Price'] = df['Price'].replace(',', '', regex=True)
         df['Price'] = pd.to_numeric(df['Price'])
