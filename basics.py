@@ -153,9 +153,7 @@ def converter_dados(df: pd.DataFrame) -> pd.DataFrame:
         df['Low'] = pd.to_numeric(df['Low'])
     if 'Vol.' in columns:
         copy = df['Vol.'].copy().replace(',', '', regex=True)
-        print(copy)
         copy = copy.map(format_vol)
-        print(copy)
         df['Vol.'] = copy
     if 'Change %' in columns:
         df['Change %'] = df['Change %'].replace('%', '', regex=True)
