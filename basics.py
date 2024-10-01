@@ -119,8 +119,9 @@ def converter_dados(df: pd.DataFrame) -> pd.DataFrame:
         - Remove as vírgulas e converte os valores para números.
     - `Vol.`:
         - Células vazias são preenchidas com 0 e transforma os
-        valores em números (Substituindo K por uma multiplicação em 
-        ordem 1.000 e M por uma multiplicação em ordem 1.000.000)
+        valores em números (Substituindo 'K' por uma multiplicação em 
+        ordem {10^3}, 'M' por uma multiplicação em ordem {10^6} e 'B'
+        por uma multiplicação em ordem de {10^9})
     - `Change`:
         - Remove o símbolo de porcentagem e transforma os
         valores em sua representação decimal entre 0 e 1 
@@ -135,6 +136,9 @@ def converter_dados(df: pd.DataFrame) -> pd.DataFrame:
         elif ('M' in str(celula)):
             celula = celula.replace('M', '')
             celula = pd.to_numeric(celula) * pow(10,6)
+        elif ('B' in str(celula)):
+            celula = celula.replace('B', '')
+            celula = pd.to_numeric(celula) * pow(10,8)
         else:
             celula = pd.to_numeric(celula)
         return celula
