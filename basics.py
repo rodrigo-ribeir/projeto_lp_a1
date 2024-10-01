@@ -162,5 +162,3 @@ def converter_dados(df: pd.DataFrame) -> pd.DataFrame:
         df['Change %'] = pd.to_numeric(df['Change %'])
         df['Change %'] /= 100
     return df
-
-print(converter_dados(choose_dataset()))
