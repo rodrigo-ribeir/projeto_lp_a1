@@ -38,10 +38,22 @@ def read_data(name: str, separator: str = ',', encode: str = "utf-8") -> pd.Data
     else:
         return df
     
-def choose_dataset():
+def choose_dataset(select: int = 0):
     '''
     Função para facilitar a abertura dos diferentes arquivos 
     utilizados no decorrer do trabalho
+
+    Parameters
+    ----------
+    select: int
+        Parâmetro opcional que, se não for passado, gera um input
+        dentro da função solicitando um valor. Refere-se a qual
+        dado será aberto.
+        As opções estão listadas abaixo:
+        - 1: Bitcoin Historical Data.csv
+        - 2: Ethereum Historical Data.csv
+        - 3: Solana Historical Data.csv
+        - 4: ( Outro: gera um input solicitando o nome )
 
     Return
     ------
@@ -49,10 +61,17 @@ def choose_dataset():
         Retorna um dataframe contendo o conteúdo de um arquivo
         selecionado na pasta "data"
     '''
-    print("Selecione o índice de qual dos três datasets você deseja abrir")
-    ans = int(input("{ 1 - Bitcoin // 2 - Ethereum // 3 - Solana // 4 - Outro}\n-> "))
+    
+    if (select == 0):
+        print("Selecione o índice de qual dos três datasets você deseja abrir")
+        ans = input("{ 1 - Bitcoin // 2 - Ethereum // 3 - Solana // 4 - Outro}\n-> ")
+        try:
+            select = int(ans)
+        except TypeError:
+            print("Você deve digitar um número de 1 a 4.")
+
     df = None
-    match ans:
+    match select:
         case 1:
             df = read_data("Bitcoin Historical Data.csv")
         case 2:
