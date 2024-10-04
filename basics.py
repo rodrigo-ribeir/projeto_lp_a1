@@ -38,32 +38,66 @@ def read_data(name: str, separator: str = ',', encode: str = "utf-8") -> pd.Data
     else:
         return df
     
-def choose_dataset():
+def choose_dataset(select: int = 0, return_name: bool = False) -> pd.DataFrame | str:
     '''
     Função para facilitar a abertura dos diferentes arquivos 
     utilizados no decorrer do trabalho
 
-    Return
-    ------
+    Parameters
+    ----------
+    select: int
+        Parâmetro que, se não for passado, gera um input dentro
+        da função solicitando um valor. Refere-se a qual dataset 
+        será aberto.
+        As opções estão listadas abaixo:
+        - 1: Bitcoin Historical Data.csv
+        - 2: Ethereum Historical Data.csv
+        - 3: Solana Historical Data.csv
+        - 4: ( Outro: gera um input solicitando o nome )
+
+    return_name: bool
+        Se passado como true retorna também o nome do dataset
+        carregado. O padrão é False
+
+    Returns
+    -------
     pd.DataFrame
         Retorna um dataframe contendo o conteúdo de um arquivo
         selecionado na pasta "data"
+
+    str
+        Retorna o nome do dataset caso o parâmetro `return_name`
+        seja passado como True
     '''
-    print("Selecione o índice de qual dos três datasets você deseja abrir")
-    ans = int(input("{ 1 - Bitcoin // 2 - Ethereum // 3 - Solana // 4 - Outro}\n-> "))
+    
+    if (select == 0):
+        print("Selecione o índice de qual dos três datasets você deseja abrir")
+        ans = input("{ 1 - Bitcoin // 2 - Ethereum // 3 - Solana // 4 - Outro}\n-> ")
+        try:
+            select = int(ans)
+        except TypeError:
+            print("Você deve digitar um número de 1 a 4.")
+
     df = None
-    match ans:
+    data_name = ""
+    match select:
         case 1:
             df = read_data("Bitcoin Historical Data.csv")
+            data_name = "Bitcoin"
         case 2:
             df = read_data("Ethereum Historical Data.csv")
+            data_name = "Ethereum"
         case 3:
             df = read_data("Solana Historical Data.csv")
+            data_name = "Solana"
         case 4:
             name = input("Digite o nome do arquivo sem a extensão (.csv):\n ->") + ".csv"
             df = read_data(name)
+            data_name = name[0:-4]
         case _:
             print("Digite uma opção válida --> {1, 2, 3 ou 4}.")
+    if return_name:
+        return df, data_name
     return df
 
 def filtrar_colunas(df: pd.DataFrame, columns: list) -> pd.DataFrame:
