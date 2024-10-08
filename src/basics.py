@@ -30,11 +30,10 @@ def read_data(name: str, separator: str = ',', encode: str = "utf-8") -> pd.Data
         df = pd.read_csv(archive, sep=separator, encoding= encode)
     except FileNotFoundError:
         print(f"O arquivo {name} não foi encontrado na pasta data.")
-        quit()
-    except Exception as erro:
-        print(f"Não foi possível abrir o arquivo {name}. Verifique o conteúdo do arquivo.")
-        print(f"Erro: {erro}")
-        quit()
+        raise FileNotFoundError
+    except PermissionError:
+        print(f"Não é permitida a leitura de {name}, verifique o nome do arquivo.")
+        raise PermissionError
     else:
         return df
     
@@ -75,8 +74,11 @@ def choose_dataset(select: int = 0, return_name: bool = False) -> pd.DataFrame |
         ans = input("{ 1 - Bitcoin // 2 - Ethereum // 3 - Solana // 4 - Outro}\n-> ")
         try:
             select = int(ans)
-        except TypeError:
+        # O ValueError se refere a um valor recebido de tipo correto, e como o input 
+        # deve ser um número, se não puder ser convertido para int é do tipo incorreto
+        except ValueError:
             print("Você deve digitar um número de 1 a 4.")
+            raise TypeError
 
     df = None
     data_name = ""
@@ -96,6 +98,7 @@ def choose_dataset(select: int = 0, return_name: bool = False) -> pd.DataFrame |
             data_name = name[0:-4]
         case _:
             print("Digite uma opção válida --> {1, 2, 3 ou 4}.")
+            raise ValueError
     if return_name:
         return df, data_name
     return df
@@ -172,7 +175,7 @@ def converter_dados(df: pd.DataFrame) -> pd.DataFrame:
             celula = pd.to_numeric(celula) * pow(10,6)
         elif ('B' in str(celula)):
             celula = celula.replace('B', '')
-            celula = pd.to_numeric(celula) * pow(10,8)
+            celula = pd.to_numeric(celula) * pow(10,9)
         else:
             celula = pd.to_numeric(celula)
         return celula
