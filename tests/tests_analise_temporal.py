@@ -71,7 +71,7 @@ class TestDataLoader(unittest.TestCase):
                     {pd.Timestamp('2020-07-13 00:00:00'): pd.Timestamp('2020-07-20 00:00:00'), pd.Timestamp('2020-07-20 00:00:00'): pd.Timestamp('2020-07-27 00:00:00'), pd.Timestamp('2020-07-27 00:00:00'): pd.Timestamp('2020-08-03 00:00:00'), pd.Timestamp('2020-08-03 00:00:00'): pd.Timestamp('2020-08-10 00:00:00'), pd.Timestamp('2020-08-10 00:00:00'): pd.Timestamp('2020-08-17 00:00:00')}}
         expected = pd.DataFrame(expected_raw_dict)
         expected.index.name = 'Date'
-        df = pd.read_csv("..\\data\\test_4_bimester.csv")
+        df = pd.read_csv("..\\data\\tests\\test_4_bimester.csv")
         df = bs.converter_dados(df)
         df = at.agrupate_dates(df, 'W')
         pd.testing.assert_frame_equal(df, expected)
@@ -87,7 +87,7 @@ class TestDataLoader(unittest.TestCase):
                              'End Date': {pd.Timestamp('2020-07-13 00:00:00'): pd.Timestamp('2020-08-12 00:00:00'), pd.Timestamp('2020-08-12 00:00:00'): pd.Timestamp('2020-09-11 00:00:00')}}
         expected = pd.DataFrame(expected_raw_dict)
         expected.index.name = 'Date'
-        df = pd.read_csv("..\\data\\test_4_bimester.csv")
+        df = pd.read_csv("..\\data\\tests\\test_4_bimester.csv")
         df = bs.converter_dados(df)
         df = at.agrupate_dates(df, 'M')
         pd.testing.assert_frame_equal(df, expected)
@@ -103,7 +103,7 @@ class TestDataLoader(unittest.TestCase):
                              'End Date': {pd.Timestamp('2020-07-13 00:00:00'): pd.Timestamp('2020-09-11 00:00:00')}}
         expected = pd.DataFrame(expected_raw_dict)
         expected.index.name = 'Date'
-        df = pd.read_csv("..\\data\\test_4_bimester.csv")
+        df = pd.read_csv("..\\data\\tests\\test_4_bimester.csv")
         df = bs.converter_dados(df)
         df = at.agrupate_dates(df, 'B')
         pd.testing.assert_frame_equal(df, expected)
@@ -119,7 +119,7 @@ class TestDataLoader(unittest.TestCase):
                              'End Date': {pd.Timestamp('2020-07-13 00:00:00'): pd.Timestamp('2020-10-11 00:00:00'), pd.Timestamp('2020-10-11 00:00:00'): pd.Timestamp('2021-01-09 00:00:00'), pd.Timestamp('2021-01-09 00:00:00'): pd.Timestamp('2021-04-09 00:00:00'), pd.Timestamp('2021-04-09 00:00:00'): pd.Timestamp('2021-07-08 00:00:00'), pd.Timestamp('2021-07-08 00:00:00'): pd.Timestamp('2021-10-06 00:00:00')}}
         expected = pd.DataFrame(expected_raw_dict)
         expected.index.name = 'Date'
-        df = pd.read_csv("..\\data\\test_5_year.csv")
+        df = pd.read_csv("..\\data\\tests\\test_5_year.csv")
         df = bs.converter_dados(df)
         df = at.agrupate_dates(df, 'T')
         pd.testing.assert_frame_equal(df, expected)
@@ -135,7 +135,7 @@ class TestDataLoader(unittest.TestCase):
                              'End Date': {pd.Timestamp('2020-07-13 00:00:00'): pd.Timestamp('2021-01-09 00:00:00'), pd.Timestamp('2021-01-09 00:00:00'): pd.Timestamp('2021-07-08 00:00:00'), pd.Timestamp('2021-07-08 00:00:00'): pd.Timestamp('2022-01-04 00:00:00')}}
         expected = pd.DataFrame(expected_raw_dict)
         expected.index.name = 'Date'
-        df = pd.read_csv("..\\data\\test_5_year.csv")
+        df = pd.read_csv("..\\data\\tests\\test_5_year.csv")
         df = bs.converter_dados(df)
         df = at.agrupate_dates(df, 'S')
         pd.testing.assert_frame_equal(df, expected)
@@ -151,7 +151,7 @@ class TestDataLoader(unittest.TestCase):
                              'End Date': {pd.Timestamp('2020-07-13 00:00:00'): pd.Timestamp('2021-07-13 00:00:00')}}
         expected = pd.DataFrame(expected_raw_dict)
         expected.index.name = 'Date'
-        df = pd.read_csv("..\\data\\test_5_year.csv")
+        df = pd.read_csv("..\\data\\tests\\test_5_year.csv")
         df = bs.converter_dados(df)
         df = at.agrupate_dates(df, 'Y')
         pd.testing.assert_frame_equal(df, expected)

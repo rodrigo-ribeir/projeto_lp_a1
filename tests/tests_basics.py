@@ -5,7 +5,7 @@ import pandas as pd
 
 class TestDataLoader(unittest.TestCase):
     def test_read_data_name(self):
-        data = bs.read_data("test_1.csv")
+        data = bs.read_data("\\tests\\test_1.csv")
         expected = {'Date': {0: '07/18/2010', 1: '07/19/2010',2: '07/20/2010', 3: '07/21/2010', 4: '07/22/2010'},
                     'Price': {0: "0.1", 1: "0.1", 2: "0.1", 3: "0.1", 4: "1,000.1"}, 
                     'Open': {0: "0.0", 1: "0.1", 2: "0.1", 3: "0.1", 4: "1,000.1"}, 
@@ -18,7 +18,7 @@ class TestDataLoader(unittest.TestCase):
         pd.testing.assert_frame_equal(data, expected)
         
     def test_read_data_separator(self):
-        data = bs.read_data("test_2.csv", separator=';')
+        data = bs.read_data("\\tests\\test_2.csv", separator=';')
         expected = {'Date': {0: '07/18/2010', 1: '07/19/2010', 2: '07/20/2010', 3: '07/21/2010', 4: '07/22/2010'}, 
                     'Price': {0: 0.1, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1}, 
                     'Open': {0: 0.0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1}, 
@@ -30,7 +30,7 @@ class TestDataLoader(unittest.TestCase):
         pd.testing.assert_frame_equal(data, expected)
 
     def test_read_data_encode(self):
-        data = bs.read_data("test_3.csv", encode="utf_16_le")
+        data = bs.read_data("\\tests\\test_3.csv", encode="utf_16_le")
         expected = {'Date': {0: '07/18/2010', 1: '07/19/2010', 2: '07/20/2010', 3: '07/21/2010', 4: '07/22/2010'}, 
                     'Price': {0: 0.1, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1}, 
                     'Open': {0: 0.0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1}, 
@@ -62,12 +62,12 @@ class TestDataLoader(unittest.TestCase):
         expected = {'Date': {0: '07/18/2010', 1: '07/19/2010',2: '07/20/2010', 3: '07/21/2010', 4: '07/22/2010'},
                     'Price': {0: "0.1", 1: "0.1", 2: "0.1", 3: "0.1", 4: "1,000.1"}}
         expected = pd.DataFrame(expected)
-        foo = pd.read_csv("..\\data\\test_1.csv")
+        foo = pd.read_csv("..\\data\\tests\\test_1.csv")
         real = bs.filtrar_colunas(foo, ['Date', 'Price'])
         pd.testing.assert_frame_equal(expected, real)
     
     def test_error_filtrar_colunas_wrong_columns(self):
-        df = pd.read_csv("..\\data\\test_1.csv")
+        df = pd.read_csv("..\\data\\tests\\test_1.csv")
         coluna = ['Coluna']
         try:
             bs.filtrar_colunas(df,coluna)
@@ -77,7 +77,7 @@ class TestDataLoader(unittest.TestCase):
             assert False
     
     def test_converter_dados_values_columns(self):
-        test_1 = pd.read_csv("..\\data\\test_1.csv")
+        test_1 = pd.read_csv("..\\data\\tests\\test_1.csv")
         test_1_c = bs.converter_dados(test_1)
         Prices = pd.Series([0.1,0.1,0.1,0.1, 1_000.1], name='Price')
         Opens = pd.Series([0.0, 0.1, 0.1, 0.1, 1_000.1], name='Open')
@@ -90,7 +90,7 @@ class TestDataLoader(unittest.TestCase):
         pd.testing.assert_series_equal(test_1_c['Low'], Lows)
     
     def test_converter_dados_amount_columns(self):
-        test_1 = pd.read_csv("..\\data\\test_1.csv")
+        test_1 = pd.read_csv("..\\data\\tests\\test_1.csv")
         vol_real = bs.converter_dados(test_1)['Vol.']
         change_real = bs.converter_dados(test_1)['Change %']
         vols = pd.Series([80.0, 570_000.0, 260_000.0, 50_000_000.0, 216_000_000.0], name="Vol.")
@@ -100,7 +100,7 @@ class TestDataLoader(unittest.TestCase):
         pd.testing.assert_series_equal(change_real, changes)
         
     def test_converter_dados_date_column(self):
-        test_1 = pd.read_csv("..\\data\\test_1.csv")
+        test_1 = pd.read_csv("..\\data\\tests\\test_1.csv")
         real_dates = bs.converter_dados(test_1)['Date']
         dates = pd.Series(["07/18/2010","07/19/2010","07/20/2010","07/21/2010","07/22/2010"], name='Date')
         dates_pd = pd.to_datetime(dates)
