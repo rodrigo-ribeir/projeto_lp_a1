@@ -6,7 +6,7 @@ import basics as bs
 import analise_temporal as at
 
 class TestDataLoader(unittest.TestCase):
-    
+
     @unittest.mock.patch("analise_temporal.input")
     def test_ask_period_negative(self, mocked_input):
         mocked_input.side_effect = ['N']
@@ -48,9 +48,7 @@ class TestDataLoader(unittest.TestCase):
         try:
             at.ask_period()
         except ValueError:
-            self.assertTrue(True)
-        else:
-            self.assertFalse(False)
+            assert True
 
     def test_agrupate_dates_weekly(self):
         expected_raw_dict = {'Price': 
@@ -156,43 +154,61 @@ class TestDataLoader(unittest.TestCase):
         df = at.agrupate_dates(df, 'Y')
         pd.testing.assert_frame_equal(df, expected)
         
-    # def load_data() -> pd.DataFrame:
-    #     colunas = ['Date', 'Price', 'Vol.', 'Change %']
-    #     df1, nome1 = bs.choose_dataset(2, True)
-    #     df1 = bs.filtrar_colunas(df1, colunas)
-    #     df1 = bs.converter_dados(df1)
-    #     df2, nome2 = bs.choose_dataset(3, True)
-    #     df2 = bs.filtrar_colunas(df2, colunas)
-    #     df2 = bs.converter_dados(df2)
-    #     print(f" -> Os datasets trabalhados são: \n --> {nome1}\n --> {nome2}")
-    #     print("\n -> As colunas analisadas são:")
-    #     for item in colunas:
-    #         print(f" --> {item}")
-    #     df = agrupate_datasets(df1, df2, nome1, nome2)
-    #     period = ask_period()
-    #     df = agrupate_dates(df, period)
-    #     normalize_value_columns(df)
+    def test_error_agrupate_dates(self):
+        df = pd.read_csv("..\\data\\tests\\test_1.csv")
+        df = bs.converter_dados(df)
+        try:
+            at.agrupate_dates(df, "L")
+        except ValueError:
+            assert True
+    
+    def test_rename_columns(self):
+        raw_dict = {'Date': {1:'0',2:'0',3:'0'},
+                    'Col1': {1:'1',2:'1',3:'1'},
+                    'Col2': {1:'2',2:'2',3:'2'},
+                    'Col3': {1:'3',2:'3',3:'3'}
+                    }
+        df = pd.DataFrame(raw_dict)
+        at.rename_columns(df,'T')
+        expected = ['Date', 'Col1 T', 'Col2 T', 'Col3 T']
+        real = list(df.columns)
+        self.assertEqual(expected, real)
 
-    #     return df
+    def test_normalize_value_columns(self):
+        raw_dict = {'Date':{1:'10/10',2:'11/11',3:'12/12'},
+                    'Valor1':{1: 100, 2: 100,3: 100},
+                    'Valor2':{1: 100, 2: 50,3: 0},
+                    'Valor3':{1: 2500, 2: 250,3: 25},
+                    'Valor %':{1: 0.0, 2: 0.5,3: 0.11}}
+        expected_raw_dict = {'Date':{1:'10/10',2:'11/11',3:'12/12'},
+                    'Valor1':{1: 1.0, 2: 1.0,3: 1.0},
+                    'Valor2':{1: 1.0, 2: 0.5,3: 0.0},
+                    'Valor3':{1: 1, 2: 0.1,3: 0.01},
+                    'Valor %':{1: 0.0, 2: 0.5,3: 0.11}}
+        real = pd.DataFrame(raw_dict)
+        at.normalize_value_columns(real)
+        expected = pd.DataFrame(expected_raw_dict)
+        pd.testing.assert_frame_equal(real, expected)
 
-    # def normalize_value_columns(df: pd.DataFrame):
-    #     columns = list(filter((lambda x: False if 'Date' in x or '%' in x else True), list(df.columns)))
-    #     df[columns] = df[columns].apply(lambda x: x / x.max())
-
-    # def rename_columns(df: pd.DataFrame, string):
-    #     column_names = list(filter((lambda x: False if 'Date' in x else True), list(df.columns)))
-    #     new_names = {nome: nome + " " + string for nome in column_names}
-    #     df.rename(columns=new_names, inplace=True)
-
-    # def agrupate_datasets(df1: pd.DataFrame, df2: pd.DataFrame, df1_name: str = 1, df2_name: str = 2) -> pd.DataFrame:
-    #     rename_columns(df1, df1_name)
-    #     rename_columns(df2, df2_name)
-
-    #     df_result = pd.merge(df1, df2, on='Date', how='outer')
-    #     df_result.fillna(0, inplace=True)
-
-    #     return df_result
-
-
-if (__name__ == "__main__"):
-    unittest.main(buffer=True)
+    # Importante!
+    def test_agrupate_datasets(self):
+        df1_raw_dict = {'Date':{1: 0, 2: 1, 3: 2, 4: 3, 5: 4},
+                        'C1':{1: "never", 2: "gonna", 3: "give", 4: "you", 5: "up"},
+                        'C2':{1: "never", 2: "gonna", 3: "let", 4: "you", 5: "down "},
+                        'C3':{1: "never", 2: "gonna", 3: "run", 4: "around and", 5: "desert you"},}
+        df2_raw_dict = {'Date':{1: 0, 2: 1, 3: 2, 4: 3, 5: 4},
+                        'C1':{1: "never", 2: "gonna", 3: "make", 4: "you", 5: "cry"},
+                        'C2':{1: "never", 2: "gonna", 3: "say", 4: "goodbye"},
+                        'C3':{1: "never", 2: "gonna", 3: "tell a", 4: "lie and", 5: "hurt you"}}
+        df_expected_raw = {'Date': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4}, 
+                           'C1 Got': {0: 'never', 1: 'gonna', 2: 'give', 3: 'you', 4: 'up'}, 
+                           'C2 Got': {0: 'never', 1: 'gonna', 2: 'let', 3: 'you', 4: 'down '}, 
+                           'C3 Got': {0: 'never', 1: 'gonna', 2: 'run', 3: 'around and', 4: 'desert you'}, 
+                           'C1 Rickrolled': {0: 'never', 1: 'gonna', 2: 'make', 3: 'you', 4: 'cry'}, 
+                           'C2 Rickrolled': {0: 'never', 1: 'gonna', 2: 'say', 3: 'goodbye', 4: 0}, 
+                           'C3 Rickrolled': {0: 'never', 1: 'gonna', 2: 'tell a', 3: 'lie and', 4: 'hurt you'}}
+        df1 = pd.DataFrame(df1_raw_dict)
+        df2 = pd.DataFrame(df2_raw_dict)
+        expected = pd.DataFrame(df_expected_raw)
+        df_agrupated = at.agrupate_datasets(df1,df2,"Got","Rickrolled")
+        pd.testing.assert_frame_equal(df_agrupated, expected)
