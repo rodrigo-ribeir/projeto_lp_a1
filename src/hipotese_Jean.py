@@ -79,74 +79,64 @@ if __name__ == "__main__":
             continue
             
     # Verificação e plot das colunas presentes no dataset
-    ans = input("\n -> Deseja imprimir os gráficos de todo período? [Y/N]\n --> ")
-    try:
-        ans = ans.upper()
-    except:
-        print(" --> Resposta não pode ser processada")
-        raise ValueError
-    if (ans == 'Y'): 
-        if prices:
-            # Printa as colunas dos preços
-            price_columns = list(filter((lambda x: True if 'Price' in x else False), colunas_f))    
-            df.plot(x='Start Date', y=price_columns, kind='line', grid=True)
-            plt.show()
+    if prices:
+        # Printa as colunas dos preços
+        price_columns = list(filter((lambda x: True if 'Price' in x else False), colunas_f))    
+        df.plot(x='Start Date', y=price_columns, kind='line', grid=True)
+        plt.savefig('../data/images/price_total.png')
 
-        if volumes:
-            # Printa as colunas dos volumes
-            vol_columns = list(filter((lambda x: True if 'Vol.' in x else False), colunas_f))
-            df.plot(x='Start Date', y=vol_columns, kind='line', grid=True)
-            plt.show()
+    if volumes:
+        # Printa as colunas dos volumes
+        vol_columns = list(filter((lambda x: True if 'Vol.' in x else False), colunas_f))
+        df.plot(x='Start Date', y=vol_columns, kind='line', grid=True)
+        plt.savefig('../data/images/volume_total.png')
 
-        if changes:        
-            # Printa as colunas das variações
-            change_columns = list(filter((lambda x: True if 'Change %' in x else False), colunas_f))
-            df.plot(x='Start Date', y=change_columns, kind='line', grid=True)
-            plt.show()
-        
-        if value_volume:        
-            # Printa as colunas das variações
-            change_columns = list(filter((lambda x: True if 'Vol x Value' in x else False), colunas_f))
-            df.plot(x='Start Date', y=change_columns, kind='line', grid=True)
-            plt.show()
+    if changes:        
+        # Printa as colunas das variações
+        change_columns = list(filter((lambda x: True if 'Change %' in x else False), colunas_f))
+        df.plot(x='Start Date', y=change_columns, kind='line', grid=True)
+        plt.savefig('../data/images/change_total.png')
     
-    ans = input("\n -> Deseja a análise dos dados recentes? [Y/N]\n --> ")
-    try:
-        ans = ans.upper()
-    except:
-        print(" --> Resposta não pode ser processada")
-        raise ValueError
-    if (ans == 'Y'):
-        print("--> Análise recente dos dados:\n")
-        mc = at.each_column_max(rdf)
-        indexes = range(len(mc))
-        with open("..\\data\\max_recent_period.md", mode="w", encoding='utf-8') as archive:
-            pd.DataFrame(mc, index=indexes).to_markdown(archive, mode="w", index=False)
-        print("\n -> Lista dos maiores valores por coluna do dataframe:")
-        for key, value in list(mc.items()):
-            print(f" --> Max em {"["+ key + "]":25s} = {value};")
-        if prices:
-            # Printa as colunas dos preços
-            price_columns = list(filter((lambda x: True if 'Price' in x else False), colunas_f))    
-            rdf.plot(x='Date', y=price_columns, kind='line', grid=True)
-            plt.show()
+    if value_volume:        
+        # Printa as colunas das variações
+        change_columns = list(filter((lambda x: True if 'Vol x Value' in x else False), colunas_f))
+        df.plot(x='Start Date', y=change_columns, kind='line', grid=True)
+        plt.savefig('../data/images/value_volume_total.png')
+    
+    print("--> Análise recente dos dados:\n")
+    
+    mc = at.each_column_max(rdf)
+    indexes = range(len(mc))
 
-        if volumes:
-            # Printa as colunas dos volumes
-            vol_columns = list(filter((lambda x: True if 'Vol.' in x else False), colunas_f))
-            rdf.plot(x='Date', y=vol_columns, kind='line', grid=True)
-            plt.show()
+    with open("..\\data\\max_recent_period.md", mode="w", encoding='utf-8') as archive:
+        pd.DataFrame(mc, index=indexes).to_markdown(archive, mode="w", index=False)
 
-        if changes:        
-            # Printa as colunas das variações
-            change_columns = list(filter((lambda x: True if 'Change %' in x else False), colunas_f))
-            rdf.plot(x='Date', y=change_columns, kind='line', grid=True)
-            plt.show()
-        
-        if value_volume:        
-            # Printa as colunas das variações
-            change_columns = list(filter((lambda x: True if 'Vol x Value' in x else False), colunas_f))
-            rdf.plot(x='Date', y=change_columns, kind='line', grid=True)
-            plt.show()
+    print("\n -> Lista dos maiores valores por coluna do dataframe:")
+    for key, value in list(mc.items()):
+        print(f" --> Max em {"["+ key + "]":25s} = {value};")
+
+    if prices:
+        # Printa as colunas dos preços
+        price_columns = list(filter((lambda x: True if 'Price' in x else False), colunas_f))    
+        rdf.plot(x='Date', y=price_columns, kind='line', grid=True)
+        plt.savefig('../data/images/price_recent.png')
+
+    if volumes:
+        # Printa as colunas dos volumes
+        vol_columns = list(filter((lambda x: True if 'Vol.' in x else False), colunas_f))
+        rdf.plot(x='Date', y=vol_columns, kind='line', grid=True)
+        plt.savefig('../data/images/volume_recent.png')
+
+    if changes:        
+        # Printa as colunas das variações
+        change_columns = list(filter((lambda x: True if 'Change %' in x else False), colunas_f))
+        rdf.plot(x='Date', y=change_columns, kind='line', grid=True)
+        plt.savefig('../data/images/change_recent.png')
+    
+    if value_volume:        
+        # Printa as colunas das variações
+        change_columns = list(filter((lambda x: True if 'Vol x Value' in x else False), colunas_f))
+        rdf.plot(x='Date', y=change_columns, kind='line', grid=True)
+        plt.savefig('../data/images/value_volume_recent.png')
 
     print("\n -> Exiting...\n")
