@@ -50,27 +50,20 @@ def converter_dados(dataframe: pd.DataFrame) -> pd.DataFrame:
 
 df = converter_dados(df)
 
-print(df.isnull().sum() == 0) # não há dados vazios.
+#verificando se há dados faltando:
+def verificar_dados_faltando(dataframe: pd.DataFrame):
+    
+    # Verificar se todas as colunas têm zero valores nulos
+    if not (dataframe.isnull().sum() == 0).all():
+        raise ValueError("Há dados faltando em uma ou mais colunas.")
+    
+    return True
+
+verificar_dados_faltando(df) # não há dados vazios.
 
 #removendo linhas com datas duplicadas (se houver)
 df['Date'] = df['Date'].drop_duplicates()
 df = df.dropna()
-#print(df)
-
-#verificando se há datas faltando:
-data_ini = df['Date'].min()
-data_fim = df['Date'].max()
-intervalo_datas = pd.date_range(data_ini, data_fim)
-datas_faltando = intervalo_datas.difference(df['Date'])
-if not datas_faltando.empty:
-    print("Datas faltando:")
-    print(datas_faltando)
-else:
-    print("Não há datas faltando")
-
-#print(type(df['Date'][0]))
-#df.set_index('Date', inplace=True)
-#print(df)
 
 def divisao_por_data(data1, data2):
     try:
@@ -88,7 +81,7 @@ def divisao_por_data(data1, data2):
 halving_1 = divisao_por_data("11/28/2012", "07/09/2016")
 halving_2 = divisao_por_data("07/09/2016", "05/11/2020")
 halving_3 = divisao_por_data("05/11/2020", "04/19/2024")
-#o banco de dados desponível para dowload vai até 24/03/2024
+#o banco de dados desponível para download vai até 24/03/2024
 
 def ordenando_indices(frame: pd.DataFrame):
     frame = frame.set_index('Date')
@@ -157,8 +150,50 @@ adicionar_coluna(df_final, halving_1['aumento_percentual'], 'Ciclo 1')
 adicionar_coluna(df_final, halving_2['aumento_percentual'], 'Ciclo 2')
 adicionar_coluna(df_final, halving_3['aumento_percentual'], 'Ciclo 3')
 
-print(df_final)
 
-#halving_2.plt.line()
-#plot.show()
-#plot.savefig("meuplot.png", dpi=300)
+def normalizar_ciclos_por_preco_maximo(dataframe: pd.DataFrame):
+    """
+    Normaliza os ciclos no DataFrame com base no preço máximo de cada ciclo.
+    
+    A normalização é feita dividindo os valores de 'Ciclo 1', 'Ciclo 2' e 'Ciclo 3'
+    pelo preço máximo correspondente de cada ciclo.
+    """
+    # Normalizando cada ciclo pelo valor máximo do respectivo ciclo
+    dataframe['Ciclo 1 Normalizado'] = dataframe['Ciclo 1'] / dataframe['Ciclo 1'].max() * 100
+    dataframe['Ciclo 2 Normalizado'] = dataframe['Ciclo 2'] / dataframe['Ciclo 2'].max() * 100
+    dataframe['Ciclo 3 Normalizado'] = dataframe['Ciclo 3'] / dataframe['Ciclo 3'].max() * 100
+    
+    return dataframe
+
+# Normalizando os ciclos
+df_final = normalizar_ciclos_por_preco_maximo(df_final)
+
+
+def indices_max_e_min(dataframe: pd.DataFrame):
+    indice_maximo = dataframe['Price'].idxmax()
+    indice_minimo = dataframe['Price'].idxmin()
+    return indice_maximo, indice_minimo
+
+indice_maximo_1, indice_minimo_1 = indices_max_e_min(halving_1)
+indice_maximo_2, indice_minimo_2 = indices_max_e_min(halving_2)
+indice_maximo_3, indice_minimo_3 = indices_max_e_min(halving_3)
+
+# Plote as colunas normalizadas
+df_final.plot.line(x='Dias após halving', y=['Ciclo 1 Normalizado', 'Ciclo 2 Normalizado', 'Ciclo 3 Normalizado'])
+plt.title('Aumento Percentual Normalizado Após Halving')
+plt.ylabel('Aumento Percentual Normalizado (%)')
+plt.xlabel('Dias Após Halving')
+plt.grid()
+
+# Obtenha os dias correspondentes aos índices máximos
+dias_maximos_1 = halving_1['dias_apos_halving'].iloc[indice_maximo_1]
+dias_maximos_2 = halving_2['dias_apos_halving'].iloc[indice_maximo_2]
+dias_maximos_3 = halving_3['dias_apos_halving'].iloc[indice_maximo_3]
+
+# Adicione linhas verticais nos pontos de preço máximo
+plt.axvline(x=dias_maximos_1, color='red', linestyle='--', label='Máx Ciclo 1')
+plt.axvline(x=dias_maximos_2, color='green', linestyle='--', label='Máx Ciclo 2')
+plt.axvline(x=dias_maximos_3, color='blue', linestyle='--', label='Máx Ciclo 3')
+
+plt.savefig("halving.png", dpi=300)
+#plt.show()
