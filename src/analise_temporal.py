@@ -272,7 +272,7 @@ def recent_data(df: pd.DataFrame, dias: int = 30) -> pd.DataFrame:
         O número de dias anteriores ao último dado que
         devem ser inclusos na análise
 
-    Return:
+    Return
     ------
     pd.Dataframe
         Retorna o dataframe no intervalo solicitado
