@@ -10,8 +10,13 @@ Add your content using ``reStructuredText`` syntax. See the
 `reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
 documentation for details.
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+Trabalho realizado com dados retirados do site Investing_.
 
-   modules
+.. _Investing: https://www.investing.com/
+
+.. toctree::
+   :hidden:
+   :maxdepth: 1
+   
+   Home <self>
+   Códigos <modules>
