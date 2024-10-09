@@ -182,3 +182,107 @@ def ask_period() -> str:
         else: 
             period = ans.upper()
     return period
+
+def each_column_max(df: pd.DataFrame) -> dict:
+    '''
+    Função que retorna o valor máximo de cada coluna
+    (com exceção de colunas com `Date` no nome) no
+    formato de um dicionário.
+
+    Parameters
+    ----------
+    df: pd.DataFrame
+        DataFrame contendo as colunas a serem analisadas
+
+    Return
+    ------
+    dict
+        Dicionário cujas chaves são os nomes das colunas
+        analisadas e os valores são o maior valor daquela
+        coluna
+    '''
+    def operate_columns(x: pd.Series, dicio: dict):
+        if 'Date' in x.name:
+            pass
+        else:
+            dicio[x.name] = x.max()
+    result = dict()
+    df.apply(lambda x: operate_columns(x, result))
+    for key, value in list(result.items()):
+        result[key] = f'{value:_.2f}'
+    return result
+
+def column_volume_times_value(df: pd.DataFrame):
+    '''
+    Função cria uma nova coluna no dataframe que
+    contém o resultado da multiplicação do volume
+    pelo preço de cada criptomoeda, gerando uma 
+    visualização da relação do valor total em 
+    circulação de cada criptomoeda naquele período
+
+    Parameters
+    ----------
+    df: pd.DataFrame
+        DataFrame a ser adicionada a nova coluna.
+        É importante notar que o DataFrame deve
+        conter as colunas `Price` e `Vol.` de
+        ambas criptomoedas e na mesma ordem.
+    '''
+    colunas = df.columns
+    prices = list()
+    volumes = list()
+    names = list()
+    for c in colunas:
+        if ('Price' in c):
+            prices.append(c)
+            name = c.split(" ")[1]
+            if not(name in names):
+                names.append(name)
+        if ('Vol.' in c):
+            volumes.append(c)
+            name = c.split(" ")[1]
+            if not(name in names):
+                names.append(name)
+
+    if (len(prices) != len(volumes)) or (len(volumes) != len(names)):
+        print("\n --> ERRO: Quantidades de cada coluna não correspondem.")
+        print(" --> Há um número diferente de colunas 'Price' e 'Vol.'.\n")
+        raise Exception
+
+    if ((len(prices) == 0) or (len(volumes) == 0)):
+        print("\n --> ERRO: Dataframe não contem as colunas necessárias para essa operação")
+        print(" --> Colunas esperadas: \"Price\"; \"Vol.\"\n")
+        raise Exception
+    
+    for idx in range(len(prices)):
+        name = names[idx]
+        df[f'Vol x Value ({name})'] = df[prices[idx]] * df[volumes[idx]]
+
+def recent_data(df: pd.DataFrame, dias: int = 30) -> pd.DataFrame:
+    '''
+    Função criada para pegar o intervalo do número de
+    dias passado como parâmetro mais recente.
+    
+    Parameters
+    ----------
+    df: pd.DataFrame
+        O dataframe a ser coletado o intervalo de dias
+    
+    dias: int
+        O número de dias anteriores ao último dado que
+        devem ser inclusos na análise
+
+    Return
+    ------
+    pd.Dataframe
+        Retorna o dataframe no intervalo solicitado
+    '''
+    if not('Date' in list(df.columns)):
+        print(" --> DataFrame deve conter a coluna 'Date'")
+        raise Exception
+    num_dias = df.shape[0]-1
+    newest_date = df.loc[num_dias, 'Date']
+    interval_start = newest_date - pd.Timedelta(days = dias)
+    
+    recent_df = df.loc[df['Date'] >= interval_start].reset_index(drop=True)
+    return recent_df

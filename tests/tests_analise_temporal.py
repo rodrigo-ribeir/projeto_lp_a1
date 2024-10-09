@@ -190,6 +190,96 @@ class TestDataLoader(unittest.TestCase):
         expected = pd.DataFrame(expected_raw_dict)
         pd.testing.assert_frame_equal(real, expected)
 
+    def test_each_column_max(self):
+        raw_df_dict = {'Date':{1: 10, 2: 11, 3: 12},
+                       'Col1':{1: 1, 2: 20, 3: 10},
+                       'Col2':{1: 7.711, 2: 7, 3: 7.112}}
+        df = pd.DataFrame(raw_df_dict)
+        real = at.each_column_max(df)
+        expected = {'Col1': '20.00', 'Col2': '7.71'}
+        self.assertEqual(real, expected)
+    
+    def test_column_volume_times_value(self):
+        raw_df_dict = {'Date':{1: 10, 2: 11, 3: 12},
+                       'Price Teste1':{1: 1, 2: 20, 3: 10},
+                       'Price Teste2':{1: 7.711, 2: 7, 3: 7.112},
+                       'Vol. Teste1':{1: 20, 2:1, 3: 2},
+                       'Vol. Teste2':{1: 0, 2: 0, 3: 0}}
+        real = pd.DataFrame(raw_df_dict)
+        at.column_volume_times_value(real)
+        expected_dict = {'Date':{1: 10, 2: 11, 3: 12},
+                         'Price Teste1':{1: 1, 2: 20, 3: 10},
+                         'Price Teste2':{1: 7.711, 2: 7, 3: 7.112},
+                         'Vol. Teste1':{1: 20, 2:1, 3: 2},
+                         'Vol. Teste2':{1: 0, 2: 0, 3: 0},
+                         'Vol x Value (Teste1)': {1: 20, 2: 20, 3: 20},
+                         'Vol x Value (Teste2)': {1: 0.0, 2: 0.0, 3: 0.0},}
+        expected = pd.DataFrame(expected_dict)
+        pd.testing.assert_frame_equal(real, expected)
+
+    def test_error_missing_vol_column_volume_times_value(self):
+        raw_df_dict = {'Date':{1: 10, 2: 11, 3: 12},
+                       'Price Teste1':{1: 1, 2: 20, 3: 10},
+                       'Vol. Teste1':{1: 20, 2:1, 3: 2},
+                       'Vol. Teste2':{1: 0, 2: 0, 3: 0}}
+        df = pd.DataFrame(raw_df_dict)
+        try:
+            self.assertRaises(Exception, at.column_volume_times_value(df))
+        except Exception:
+            assert True
+    
+    def test_error_no_valid_columns_column_volume_times_value(self):
+        raw_df_dict = {'Date':{1: 10, 2: 11, 3: 12},
+                       'priceTeste':{1: 1, 2: 20, 3: 10},
+                       'volTeste':{1: 20, 2:1, 3: 2}}
+        df = pd.DataFrame(raw_df_dict)
+        try:
+            self.assertRaises(Exception, at.column_volume_times_value(df))
+        except Exception:
+            assert True
+    
+    def test_error_missing_price_column_volume_times_value(self):
+        raw_df_dict = {'Date':{1: 10, 2: 11, 3: 12},
+                       'Price Teste1':{1: 1, 2: 20, 3: 10},
+                       'Price Teste2':{1: 7.711, 2: 7, 3: 7.112},
+                       'Vol. Teste1':{1: 20, 2:1, 3: 2}}
+        df = pd.DataFrame(raw_df_dict)
+        try:
+            self.assertRaises(Exception, at.column_volume_times_value(df))
+        except Exception:
+            assert True
+
+    def test_error_missing_name_column_volume_times_value(self):
+        raw_df_dict = {'Date':{1: 10, 2: 11, 3: 12},
+                       'Price Teste1':{1: 1, 2: 20, 3: 10},
+                       'Price Teste2':{1: 7.711, 2: 7, 3: 7.112},
+                       'Vol. Teste1':{1: 20, 2:1, 3: 2},
+                       'Vol. Teste1':{1: 0, 2: 0, 3: 0}}
+        df = pd.DataFrame(raw_df_dict)
+        try:
+            self.assertRaises(Exception, at.column_volume_times_value(df))
+        except Exception:
+            assert True
+
+    def test_recent_data(self):
+        raw_dict = {'Date':{1: pd.Timestamp('2020-07-13 00:00:00'), 2: pd.Timestamp('2020-07-14 00:00:00'), 3: pd.Timestamp('2020-07-15 00:00:00'), 4: pd.Timestamp('2020-07-16 00:00:00')},
+                             'Value':{1: 10, 2: 20, 3: 30, 4: 40}}
+        df = pd.DataFrame(raw_dict)
+        expected_dict = {'Date':{0: pd.Timestamp('2020-07-15 00:00:00'), 1: pd.Timestamp('2020-07-16 00:00:00')},
+                             'Value':{0: 30, 1: 40}}
+        expected = pd.DataFrame(expected_dict)
+        real = at.recent_data(df, 0)
+        pd.testing.assert_frame_equal(real, expected)
+        
+    def test_error_no_date_recent_data(self):
+        raw_df_dict = {'Price':{1: 1, 2: 20, 3: 10},
+                       'Vol.':{1: 20, 2:1, 3: 2}}
+        df = pd.DataFrame(raw_df_dict)
+        try:
+            self.assertRaises(Exception, at.recent_data(df, 3))
+        except Exception:
+            assert True
+
     # Importante!
     def test_agrupate_datasets(self):
         df1_raw_dict = {'Date':{1: 0, 2: 1, 3: 2, 4: 3, 5: 4},

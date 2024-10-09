@@ -358,54 +358,46 @@ seja passado como True</p></li>
 <span class="sig-prename descclassname"><span class="pre">src.basics.</span></span><span class="sig-name descname"><span class="pre">converter_dados</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.basics.converter_dados" title="Link to this definition">#</a></dt>
 <dd><p>Função que formata as diferentes colunas contidas no
 dataframe utilizado como padrão.</p>
-<section id="dados">
-<h2>Dados<a class="headerlink" href="#dados" title="Link to this heading">#</a></h2>
-<p>A função formata as seguintes colunas se presentes
-no dataframe passado</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><cite>Date</cite>; <cite>Price</cite>; <cite>High</cite>; <cite>Low</cite>; <cite>Vol.</cite>; <cite>Change %</cite></p></li>
-</ul>
-</div></blockquote>
-</section>
-<section id="formatacoes">
-<h2>Formatações<a class="headerlink" href="#formatacoes" title="Link to this heading">#</a></h2>
-<ul>
+<ul class="simple">
 <li><dl class="simple">
-<dt><cite>Date</cite>:</dt><dd><ul class="simple">
-<li><p>Transforma a string em um objeto datetime do pandas</p></li>
+<dt>A função formata as seguintes colunas se presentes no dataframe passado:</dt><dd><ul>
+<li><p><cite>Date</cite> - <cite>Price</cite> - <cite>High</cite> - <cite>Low</cite> - <cite>Vol.</cite> - <cite>Change %</cite></p></li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><cite>Open</cite> / <cite>Price</cite> / <cite>High</cite> / <cite>Low</cite>:</dt><dd><ul class="simple">
-<li><p>Remove as vírgulas e converte os valores para números.</p></li>
-</ul>
+<dt>Formatações realizadas em cada coluna</dt><dd><ul>
+<li><dl class="simple">
+<dt><cite>Date</cite>:</dt><dd><p>Transforma a string em um objeto datetime do pandas</p>
 </dd>
 </dl>
 </li>
-<li><dl>
-<dt><cite>Vol.</cite>:</dt><dd><ul class="simple">
-<li><p>Células vazias são preenchidas com 0 e transforma os</p></li>
-</ul>
-<p>valores em números (Substituindo ‘K’ por uma multiplicação em
-ordem {10^3}, ‘M’ por uma multiplicação em ordem {10^6} e ‘B’
+<li><dl class="simple">
+<dt><cite>Open</cite> / <cite>Price</cite> / <cite>High</cite> / <cite>Low</cite>:</dt><dd><p>Remove as vírgulas e converte os valores para números.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>Vol.</cite>:</dt><dd><p>Células vazias são preenchidas com 0 e transforma os
+valores em números (Substituindo <cite>K</cite> por uma multiplicação em
+ordem {10^3}, <cite>M</cite> por uma multiplicação em ordem {10^6} e <cite>B</cite>
 por uma multiplicação em ordem de {10^9})</p>
 </dd>
 </dl>
 </li>
-<li><dl>
-<dt><cite>Change</cite>:</dt><dd><ul class="simple">
-<li><p>Remove o símbolo de porcentagem e transforma os</p></li>
-</ul>
-<p>valores em sua representação decimal entre 0 e 1
+<li><dl class="simple">
+<dt><cite>Change</cite>:</dt><dd><p>Remove o símbolo de porcentagem e transforma os
+valores em sua representação decimal entre 0 e 1
 (mantendo o sinal).</p>
 </dd>
 </dl>
 </li>
 </ul>
-</section>
+</dd>
+</dl>
+</li>
+</ul>
 </dd></dl>
 
 <dl class="py function">
