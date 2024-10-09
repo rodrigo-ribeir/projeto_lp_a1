@@ -269,8 +269,6 @@ class TestDataLoader(unittest.TestCase):
                              'Value':{0: 30, 1: 40}}
         expected = pd.DataFrame(expected_dict)
         real = at.recent_data(df, 0)
-        print(real)
-        print(expected)
         pd.testing.assert_frame_equal(real, expected)
         
     def test_error_no_date_recent_data(self):
