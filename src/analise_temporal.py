@@ -1,43 +1,5 @@
 import pandas as pd
-import basics as bs
 import matplotlib.pyplot as plt
-
-def load_data() -> pd.DataFrame:
-    '''
-    Carrega os dados para funcionamento da função
-    quando executada diretamente e formata usando
-    as funções do arquivo de códigos basics.py, além
-    de realizar as operações de groupby pelo período
-    e normalização dos dados.
-    
-    Return
-    ------
-    pd.DataFrame
-        Retorna o dataset final agrupado e formatado
-    '''
-    colunas = ['Date', 'Price', 'Vol.', 'Change %']
-    df1, nome1 = bs.choose_dataset(2, True)
-    df1 = bs.filtrar_colunas(df1, colunas)
-    df1 = bs.converter_dados(df1)
-    df2, nome2 = bs.choose_dataset(3, True)
-    df2 = bs.filtrar_colunas(df2, colunas)
-    df2 = bs.converter_dados(df2)
-    print(f" -> Os datasets trabalhados são: \n --> {nome1}\n --> {nome2}")
-    print("\n -> As colunas analisadas são:")
-    for item in colunas:
-        print(f" --> {item}")
-
-    df = agrupate_datasets(df1, df2, nome1, nome2)
-
-    period = ask_period()
-
-    # Agrupa os dados pelas datas no período determinado
-    df = agrupate_dates(df, period)
-    # Divide cada coluna não normalizada por seu máximo
-    # para melhorar a visualização de cada dataset
-    normalize_value_columns(df)
-
-    return df
 
 def normalize_value_columns(df: pd.DataFrame):
     '''
@@ -221,49 +183,106 @@ def ask_period() -> str:
             period = ans.upper()
     return period
 
-if __name__ == "__main__":
+def each_column_max(df: pd.DataFrame) -> dict:
+    '''
+    Função que retorna o valor máximo de cada coluna
+    (com exceção de colunas com `Date` no nome) no
+    formato de um dicionário.
 
-    df = load_data()
+    Parameters
+    ----------
+    df: pd.DataFrame
+        DataFrame contendo as colunas a serem analisadas
+
+    Return
+    ------
+    dict
+        Dicionário cujas chaves são os nomes das colunas
+        analisadas e os valores são o maior valor daquela
+        coluna
+    '''
+    def operate_columns(x: pd.Series, dicio: dict):
+        if 'Date' in x.name:
+            pass
+        else:
+            dicio[x.name] = x.max()
+    result = dict()
+    df.apply(lambda x: operate_columns(x, result))
+    for key, value in list(result.items()):
+        result[key] = f'{value:_.2f}'
+    return result
+
+def column_volume_times_value(df: pd.DataFrame):
+    '''
+    Função cria uma nova coluna no dataframe que
+    contém o resultado da multiplicação do volume
+    pelo preço de cada criptomoeda, gerando uma 
+    visualização da relação do valor total em 
+    circulação de cada criptomoeda naquele período
+
+    Parameters
+    ----------
+    df: pd.DataFrame
+        DataFrame a ser adicionada a nova coluna.
+        É importante notar que o DataFrame deve
+        conter as colunas `Price` e `Vol.` de
+        ambas criptomoedas e na mesma ordem.
+    '''
+    colunas = df.columns
+    prices = list()
+    volumes = list()
+    names = list()
+    for c in colunas:
+        if ('Price' in c):
+            prices.append(c)
+            name = c.split(" ")[1]
+            if not(name in names):
+                names.append(name)
+        if ('Vol.' in c):
+            volumes.append(c)
+            name = c.split(" ")[1]
+            if not(name in names):
+                names.append(name)
+
+    if (len(prices) != len(volumes)) or (len(volumes) != len(names)):
+        print("\n --> ERRO: Quantidades de cada coluna não correspondem.")
+        print(" --> Há um número diferente de colunas 'Price' e 'Vol.'.\n")
+        raise Exception
+
+    if ((len(prices) == 0) or (len(volumes) == 0)):
+        print("\n --> ERRO: Dataframe não contem as colunas necessárias para essa operação")
+        print(" --> Colunas esperadas: \"Price\"; \"Vol.\"\n")
+        raise Exception
     
-    colunas_f = list(df.columns)
-    prices = volumes = changes = False
-    for column in colunas_f:
-        if 'Price' in column and not(prices):
-            prices = True
-            continue
-        if 'Vol.' in column and not(volumes):
-            volumes = True
-            continue
-        if 'Change %' in column and not(changes):
-            changes = True
-            continue
+    for idx in range(len(prices)):
+        name = names[idx]
+        df[f'Vol x Value ({name})'] = df[prices[idx]] * df[volumes[idx]]
 
+def recent_data(df: pd.DataFrame, dias: int = 30) -> pd.DataFrame:
+    '''
+    Função criada para pegar o intervalo do número de
+    dias passado como parâmetro mais recente.
     
-            
-    # Verificação e plot das colunas presentes no dataset
-    ans = input("\n -> Deseja imprimir os gráficos? [Y/N]\n --> ")
-    try:
-        ans = ans.upper()
-    except:
-        print(" --> Resposta não pode ser processada")
-        raise ValueError
-    if (ans == 'Y'): 
-        if prices:
-            # Printa as colunas dos preços
-            price_columns = list(filter((lambda x: True if 'Price' in x else False), colunas_f))    
-            df.plot(x='Start Date', y=price_columns, kind='line', grid=True)
-            plt.show()
-
-        if volumes:
-            # Printa as colunas dos volumes
-            vol_columns = list(filter((lambda x: True if 'Vol.' in x else False), colunas_f))
-            df.plot(x='Start Date', y=vol_columns, kind='line', grid=True)
-            plt.show()
-
-        if changes:        
-            # Printa as colunas das variações
-            change_columns = list(filter((lambda x: True if 'Change %' in x else False), colunas_f))
-            df.plot(x='Start Date', y=change_columns, kind='line', grid=True)
-            plt.show()
+    Parameters
+    ----------
+    df: pd.DataFrame
+        O dataframe a ser coletado o intervalo de dias
     
-    print("\n -> Exiting...\n")
+    dias: int
+        O número de dias anteriores ao último dado que
+        devem ser inclusos na análise
+
+    Return
+    ------
+    pd.Dataframe
+        Retorna o dataframe no intervalo solicitado
+    '''
+    if not('Date' in list(df.columns)):
+        print(" --> DataFrame deve conter a coluna 'Date'")
+        raise Exception
+    num_dias = df.shape[0]-1
+    newest_date = df.loc[num_dias, 'Date']
+    interval_start = newest_date - pd.Timedelta(days = dias)
+    
+    recent_df = df.loc[df['Date'] >= interval_start].reset_index(drop=True)
+    return recent_df
