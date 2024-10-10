@@ -25,7 +25,7 @@ def read_data(name: str, separator: str = ',', encode: str = "utf-8") -> pd.Data
         Retorna um DataFrame contendo o conteúdo do arquivo
         passado como parâmetro
     '''
-    archive = "..\\data\\" + name
+    archive = "../data/" + name
     try:
         df = pd.read_csv(archive, sep=separator, encoding= encode)
     except FileNotFoundError:
