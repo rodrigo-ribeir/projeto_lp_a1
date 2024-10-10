@@ -462,5 +462,5 @@ plt.axvline(x=dias_maximos_2, color='green', linestyle='--', label='Máx Ciclo 2
 plt.axvline(x=dias_maximos_3, color='blue', linestyle='--', label='Máx Ciclo 3')
 
 plt.legend()
-plt.savefig("halving.png", dpi=300)
+plt.savefig("../data/imagens/halving.png", format='png', dpi=300)
 #plt.show()
