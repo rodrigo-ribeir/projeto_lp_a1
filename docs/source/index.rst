@@ -42,5 +42,6 @@ As hipóteses sobres estas criptomoedas estão listadas abaixo:
    
    Home <self>
    Hipotese 1 <Hipotese1>
+   Hipotese 3 <hipotese3>
    Download
    Códigos <modules>
