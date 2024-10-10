@@ -35,13 +35,24 @@ def load_data() -> pd.DataFrame:
     
     period = at.ask_period()
     
+    max_per_column_per_day = at.each_column_max(df)
+    print("\n -> Lista dos maiores valores do dataframe em análise diária:")
+    for key, value in list(max_per_column_per_day.items()):
+        print(f" --> Max em {"["+ key + "]":25s} = {value};")
+    
     # Agrupa os dados pelas datas no período determinado
     df = at.agrupate_dates(df, period)
     
     max_per_column = at.each_column_max(df)
-    indexes = range(len(max_per_column))
-    with open("..\\data\\max_total_period.md", mode="w", encoding='utf-8') as archive:
-        pd.DataFrame(max_per_column, index=indexes).to_markdown(archive, mode="w", index=False)
+    
+    with open(f"../data/dataframes/max_total_period_{period}.md", mode="w", encoding='utf-8') as archive:
+        pd.DataFrame(max_per_column, index=[0]).to_markdown(archive, mode="w", index=False)
+
+    with open(f"../data/dataframes/dataframe_total_{period}.md", mode="w", encoding='utf-8') as archive:
+        df.to_markdown(archive, mode="w")
+
+    with open("../data/dataframes/dataframe_recent.md", mode="w", encoding='utf-8') as archive:
+        recent_df.to_markdown(archive, mode="w")
 
     print("\n -> Lista dos maiores valores por coluna do dataframe:")
     for key, value in list(max_per_column.items()):
@@ -51,16 +62,11 @@ def load_data() -> pd.DataFrame:
     # para melhorar a visualização de cada dataset
     at.normalize_value_columns(df)
 
-    return df, recent_df
+    return df, recent_df, period
 
 if __name__ == "__main__":
 
-    df, rdf = load_data()
-
-    with open("..\\data\\dataframe_total.md", mode="w", encoding='utf-8') as archive:
-        df.to_markdown(archive, mode="w")
-    with open("..\\data\\dataframe_recent.md", mode="w", encoding='utf-8') as archive:
-        rdf.to_markdown(archive, mode="w")
+    df, rdf, p = load_data()
 
     colunas_f = list(df.columns)
     prices = volumes = changes = value_volume = False
@@ -79,74 +85,64 @@ if __name__ == "__main__":
             continue
             
     # Verificação e plot das colunas presentes no dataset
-    ans = input("\n -> Deseja imprimir os gráficos de todo período? [Y/N]\n --> ")
-    try:
-        ans = ans.upper()
-    except:
-        print(" --> Resposta não pode ser processada")
-        raise ValueError
-    if (ans == 'Y'): 
-        if prices:
-            # Printa as colunas dos preços
-            price_columns = list(filter((lambda x: True if 'Price' in x else False), colunas_f))    
-            df.plot(x='Start Date', y=price_columns, kind='line', grid=True)
-            plt.show()
+    if prices:
+        # Printa as colunas dos preços
+        price_columns = list(filter((lambda x: True if 'Price' in x else False), colunas_f))    
+        df.plot(x='Start Date', y=price_columns, kind='line', grid=True)
+        plt.savefig(f'../data/imagens/price_total_{p}.png', dpi=300, format='png')
 
-        if volumes:
-            # Printa as colunas dos volumes
-            vol_columns = list(filter((lambda x: True if 'Vol.' in x else False), colunas_f))
-            df.plot(x='Start Date', y=vol_columns, kind='line', grid=True)
-            plt.show()
+    if volumes:
+        # Printa as colunas dos volumes
+        vol_columns = list(filter((lambda x: True if 'Vol.' in x else False), colunas_f))
+        df.plot(x='Start Date', y=vol_columns, kind='line', grid=True)
+        plt.savefig(f'../data/imagens/volume_total_{p}.png', dpi=300, format='png')
 
-        if changes:        
-            # Printa as colunas das variações
-            change_columns = list(filter((lambda x: True if 'Change %' in x else False), colunas_f))
-            df.plot(x='Start Date', y=change_columns, kind='line', grid=True)
-            plt.show()
-        
-        if value_volume:        
-            # Printa as colunas das variações
-            change_columns = list(filter((lambda x: True if 'Vol x Value' in x else False), colunas_f))
-            df.plot(x='Start Date', y=change_columns, kind='line', grid=True)
-            plt.show()
+    if changes:        
+        # Printa as colunas das variações
+        change_columns = list(filter((lambda x: True if 'Change %' in x else False), colunas_f))
+        df.plot(x='Start Date', y=change_columns, kind='line', grid=True)
+        plt.savefig(f'../data/imagens/change_total_{p}.png', dpi=300, format='png')
     
-    ans = input("\n -> Deseja a análise dos dados recentes? [Y/N]\n --> ")
-    try:
-        ans = ans.upper()
-    except:
-        print(" --> Resposta não pode ser processada")
-        raise ValueError
-    if (ans == 'Y'):
-        print("--> Análise recente dos dados:\n")
-        mc = at.each_column_max(rdf)
-        indexes = range(len(mc))
-        with open("..\\data\\max_recent_period.md", mode="w", encoding='utf-8') as archive:
-            pd.DataFrame(mc, index=indexes).to_markdown(archive, mode="w", index=False)
-        print("\n -> Lista dos maiores valores por coluna do dataframe:")
-        for key, value in list(mc.items()):
-            print(f" --> Max em {"["+ key + "]":25s} = {value};")
-        if prices:
-            # Printa as colunas dos preços
-            price_columns = list(filter((lambda x: True if 'Price' in x else False), colunas_f))    
-            rdf.plot(x='Date', y=price_columns, kind='line', grid=True)
-            plt.show()
+    if value_volume:        
+        # Printa as colunas das variações
+        change_columns = list(filter((lambda x: True if 'Vol x Value' in x else False), colunas_f))
+        df.plot(x='Start Date', y=change_columns, kind='line', grid=True)
+        plt.savefig(f'../data/imagens/value_volume_total_{p}.png', dpi=300, format='png')
+    
+    print("--> Análise recente dos dados:\n")
+    
+    mc = at.each_column_max(rdf)
+    indexes = range(len(mc))
 
-        if volumes:
-            # Printa as colunas dos volumes
-            vol_columns = list(filter((lambda x: True if 'Vol.' in x else False), colunas_f))
-            rdf.plot(x='Date', y=vol_columns, kind='line', grid=True)
-            plt.show()
+    with open("..\\data\\max_recent_period.md", mode="w", encoding='utf-8') as archive:
+        pd.DataFrame(mc, index=indexes).to_markdown(archive, mode="w", index=False)
 
-        if changes:        
-            # Printa as colunas das variações
-            change_columns = list(filter((lambda x: True if 'Change %' in x else False), colunas_f))
-            rdf.plot(x='Date', y=change_columns, kind='line', grid=True)
-            plt.show()
-        
-        if value_volume:        
-            # Printa as colunas das variações
-            change_columns = list(filter((lambda x: True if 'Vol x Value' in x else False), colunas_f))
-            rdf.plot(x='Date', y=change_columns, kind='line', grid=True)
-            plt.show()
+    print("\n -> Lista dos maiores valores por coluna do dataframe:")
+    for key, value in list(mc.items()):
+        print(f" --> Max em {"["+ key + "]":25s} = {value};")
+
+    if prices:
+        # Printa as colunas dos preços
+        price_columns = list(filter((lambda x: True if 'Price' in x else False), colunas_f))    
+        rdf.plot(x='Date', y=price_columns, kind='line', grid=True)
+        plt.savefig('../data/imagens/price_recent.png', dpi=300, format='png')
+
+    if volumes:
+        # Printa as colunas dos volumes
+        vol_columns = list(filter((lambda x: True if 'Vol.' in x else False), colunas_f))
+        rdf.plot(x='Date', y=vol_columns, kind='line', grid=True)
+        plt.savefig('../data/imagens/volume_recent.png', dpi=300, format='png')
+
+    if changes:        
+        # Printa as colunas das variações
+        change_columns = list(filter((lambda x: True if 'Change %' in x else False), colunas_f))
+        rdf.plot(x='Date', y=change_columns, kind='line', grid=True)
+        plt.savefig('../data/imagens/change_recent.png', dpi=300, format='png')
+    
+    if value_volume:        
+        # Printa as colunas das variações
+        change_columns = list(filter((lambda x: True if 'Vol x Value' in x else False), colunas_f))
+        rdf.plot(x='Date', y=change_columns, kind='line', grid=True)
+        plt.savefig('../data/imagens/value_volume_recent.png', dpi=300, format='png')
 
     print("\n -> Exiting...\n")
