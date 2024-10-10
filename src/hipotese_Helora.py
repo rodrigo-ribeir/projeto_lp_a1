@@ -75,16 +75,12 @@ def graph_compare_prices(df: pd.DataFrame, crypto_compare: str, cor: str):
     eixo2 = eixo1.twinx()
     df.plot.line(x='Date', y='Price', ax=eixo2, label=crypto_compare, color=cor)
     eixo2.set_ylabel(f'Preço {crypto_compare}')
+    
+    plt.savefig(f"../data/imagens/bitcoin_x_{crypto_compare.lower()}.png", format='png', dpi=300)
 
-    plt.xticks(rotation=45)
+graph_compare_prices(df_solana, 'Solana', 'orange')
 
-    fig.canvas.draw_idle()
-    plt.matshow(fig)
-
-
-fig1 = graph_compare_prices(df_solana, 'Solana', 'orange')
-#plt.show()
-fig2 = graph_compare_prices(df_ethereum, 'Ethereum', 'green')
+graph_compare_prices(df_ethereum, 'Ethereum', 'green')
 
 df_agrupate1 = at.agrupate_datasets(df_bitcoin, df_solana, "btc", "sol")
 df_agrupate2 = at.agrupate_datasets(df_bitcoin, df_ethereum, "btc", "eth")
@@ -115,9 +111,3 @@ def qtd_same_sign(df: pd.DataFrame, columns: list):
     true_count = df['Bool Hipótese'].value_counts()[True]
     false_count = df['Bool Hipótese'].value_counts()[False]
     return true_count, false_count
-
-#column = ["Change % btc", "Change % sol"]
-
-#t, f = qtd_same_sign(df_agrupate1, column)
-
-#print(f"True: {t}, False: {f}")
