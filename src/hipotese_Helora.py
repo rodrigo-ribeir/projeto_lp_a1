@@ -3,20 +3,6 @@ import basics as bs
 import analise_temporal as at
 import matplotlib.pyplot as plt
 
-df_bitcoin, name_b = bs.choose_dataset(1, True)
-df_ethereum, name_e = bs.choose_dataset(2, True)
-df_solana, name_s = bs.choose_dataset(3, True)
-
-columns = ['Date', 'Price', 'Change %']
-
-df_bitcoin = bs.filtrar_colunas(df_bitcoin, columns)
-df_solana = bs.filtrar_colunas(df_solana, columns)
-df_ethereum = bs.filtrar_colunas(df_ethereum, columns)
-
-df_bitcoin = bs.converter_dados(df_bitcoin)
-df_solana = bs.converter_dados(df_solana)
-df_ethereum = bs.converter_dados(df_ethereum)
-
 def remove_lines_diff(df1: pd.DataFrame, df2: pd.DataFrame, df3: pd.DataFrame, column: str = 'Date'):
     '''
     Remove as linhas que estão na coluna de um DataFrame, mas não estão
@@ -42,11 +28,10 @@ def remove_lines_diff(df1: pd.DataFrame, df2: pd.DataFrame, df3: pd.DataFrame, c
     dfr3 = df3[df3[column].isin(dates)]
     return dfr1, dfr2, dfr3
 
-df_bitcoin, df_solana, df_ethereum = remove_lines_diff(df_bitcoin, df_solana, df_ethereum)
-
 def graph_compare_prices(df: pd.DataFrame, crypto_compare: str, cor: str):
     '''
-    Plota o gráfico para comparar os preços do Bitcoin com os de outra criptomoeda.
+    Salva os gráficos que comparam os preços do Bitcoin com os de outra 
+    criptomoeda.
 
     Parameters
     ----------
@@ -60,13 +45,6 @@ def graph_compare_prices(df: pd.DataFrame, crypto_compare: str, cor: str):
 
     cor: str
         Cor para a linha da criptomoeda escolhida
-
-    Returns
-    -------
-    fig
-    Retorna o gráfico com as duas criptomoedas, sendo um eixo fixo 'Date'
-    e outros eixos para os preços de cada criptomoeda
-    (Bitcoin e 'crypto_compare'), para compará-las
     '''
     fig, eixo1 = plt.subplots(figsize=(10, 5))
     df_bitcoin.plot.line(x='Date', y='Price', ax=eixo1, label='Bitcoin', color='blue')
@@ -75,19 +53,8 @@ def graph_compare_prices(df: pd.DataFrame, crypto_compare: str, cor: str):
     eixo2 = eixo1.twinx()
     df.plot.line(x='Date', y='Price', ax=eixo2, label=crypto_compare, color=cor)
     eixo2.set_ylabel(f'Preço {crypto_compare}')
-
-    plt.xticks(rotation=45)
-
-    fig.canvas.draw_idle()
-    plt.matshow(fig)
-
-
-fig1 = graph_compare_prices(df_solana, 'Solana', 'orange')
-#plt.show()
-fig2 = graph_compare_prices(df_ethereum, 'Ethereum', 'green')
-
-df_agrupate1 = at.agrupate_datasets(df_bitcoin, df_solana, "btc", "sol")
-df_agrupate2 = at.agrupate_datasets(df_bitcoin, df_ethereum, "btc", "eth")
+    
+    plt.savefig(f"../data/imagens/bitcoin_x_{crypto_compare.lower()}.png", format='png', dpi=300)
 
 def qtd_same_sign(df: pd.DataFrame, columns: list):
     '''
@@ -116,8 +83,59 @@ def qtd_same_sign(df: pd.DataFrame, columns: list):
     false_count = df['Bool Hipótese'].value_counts()[False]
     return true_count, false_count
 
-#column = ["Change % btc", "Change % sol"]
+def load_format_dataset(idx: int, columns: list) -> pd.DataFrame:
+    '''
+    Função básica para carregar os datasets utilizados na hipótese.
 
-#t, f = qtd_same_sign(df_agrupate1, column)
+    Parameters
+    ----------
+    idx: int
+        Inteiro que indica o dataset que será aberto com base na função 
+        choose_dataset (1: Bitcoin; 2: Ethereum; 3: Solana)
 
-#print(f"True: {t}, False: {f}")
+    columns: list
+        Lista contendo as colunas que serão utilizadas
+
+    Return
+    ------
+    pd.DataFrame
+        Dataframe formatado e filtrado com as colunas que serão utilizadas
+    '''
+    df, name = bs.choose_dataset(idx, True)
+    df = bs.filtrar_colunas(df, columns)
+    df = bs.converter_dados(df)
+    return df, name
+
+if __name__ == "__main__":
+    
+    columns = ['Date', 'Price', 'Change %']
+
+    df_bitcoin, name_b = load_format_dataset(1, columns)
+    df_ethereum, name_e = load_format_dataset(2, columns)
+    df_solana, name_s = load_format_dataset(3, columns)
+
+    df_bitcoin, df_solana, df_ethereum = remove_lines_diff(df_bitcoin, df_solana, df_ethereum)
+
+    # Gera as imagens dos gráficos que são armazenadas em ../data/imagens
+    graph_compare_prices(df_solana, 'Solana', 'orange')
+    graph_compare_prices(df_ethereum, 'Ethereum', 'green')
+
+    # Gera dataframes utilizados na pasta ../data/dataframes
+    with open('../data/dataframes/bitcoin_values.md', "w", encoding='utf-8') as archive:
+        df_bitcoin.tail(5).to_markdown(archive, index=False)
+    
+    with open('../data/dataframes/ethereum_values.md', "w", encoding='utf-8') as archive:
+        df_ethereum.tail(5).to_markdown(archive, index=False)
+    
+    with open('../data/dataframes/solana_values.md', "w", encoding='utf-8') as archive:
+        df_solana.tail(5).to_markdown(archive, index=False)
+    
+    df_agrupate1 = at.agrupate_datasets(df_bitcoin, df_solana, "btc", "sol")
+    df_agrupate2 = at.agrupate_datasets(df_bitcoin, df_ethereum, "btc", "eth")
+    
+    with open('../data/dataframes/bitcoin_x_solana.md', "w", encoding='utf-8') as archive:
+        df_agrupate1.tail(5).to_markdown(archive, index=False)
+
+    with open('../data/dataframes/bitcoin_x_ethereum.md', "w", encoding='utf-8') as archive:
+        df_agrupate2.tail(5).to_markdown(archive, index=False)
+    
