@@ -25,6 +25,23 @@ Esse corpo de código foi criado com o intuito de trabalhar com os dataframes
 e responder a primeira hipótese: **Ethereum ou Solana? Qual das duas será mais
 utilizada no futuro**
 
+`Hipotese Helora`_
+------------------
+Esse corpo de código foi criado com a intenção de armazenar as funções e as 
+funções que visam a análise da segunda hipótese: **Influência do Bitcoin: As 
+variações no preço do Bitcoin influenciam no valor das outras moedas?**
+
+`Hipotese Rodrigo`_
+-------------------
+Esse corpo de código foi criado para realizar a análise dos dados de maneira
+a realizar a análise proposta na terceira hipótese: **Halving do Bitcoin: 
+Quanto tempo depois ocorrem os picos de preço?**
+
+.. _`Analise Temporal`: analise_temporal.html
+.. _`Basics`: basics.html
+.. _`Hipotese Jean`: hipotese_Jean.html
+.. _`Hipotese Helora`: hipotese_Helora.html
+.. _`Hipotese Rodrigo`: hipotese_Rodrigo.html
 
 .. toctree::
    :maxdepth: 4
@@ -32,4 +49,5 @@ utilizada no futuro**
    analise_temporal
    basics
    hipotese_Jean
+   hipotese_Helora
    hipotese_Rodrigo
