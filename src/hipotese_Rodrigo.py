@@ -41,7 +41,7 @@ def ler_arquivo(arquivo, separador=',', encoding='utf-8'):
     except pd.errors.EmptyDataError:
         print(f'Erro: O arquivo {arquivo} está vazio. Certifique-se de que está no diretório correto')
     
-df = ler_arquivo('./data/Bitcoin Historical Data.csv')
+df = ler_arquivo('../data/Bitcoin Historical Data.csv')
 
 def filtrar_colunas(dataframe: pd.DataFrame, colunas: list):
     """
