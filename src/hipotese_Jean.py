@@ -38,7 +38,7 @@ def load_data() -> pd.DataFrame:
     max_per_column_per_day = at.each_column_max(df)
     print("\n -> Lista dos maiores valores do dataframe em análise diária:")
     for key, value in list(max_per_column_per_day.items()):
-        print(f" --> Max em {"["+ key + "]":25s} = {value};")
+        print(f" --> Max em {key:22s} = {value};")
     
     # Agrupa os dados pelas datas no período determinado
     df = at.agrupate_dates(df, period)
@@ -56,7 +56,7 @@ def load_data() -> pd.DataFrame:
 
     print("\n -> Lista dos maiores valores por coluna do dataframe:")
     for key, value in list(max_per_column.items()):
-        print(f" --> Max em {"["+ key + "]":25s} = {value};")
+        print(f" --> Max em {key:22s} = {value};")
 
     # Divide cada coluna não normalizada por seu máximo
     # para melhorar a visualização de cada dataset
@@ -119,7 +119,7 @@ if __name__ == "__main__":
 
     print("\n -> Lista dos maiores valores por coluna do dataframe:")
     for key, value in list(mc.items()):
-        print(f" --> Max em {"["+ key + "]":25s} = {value};")
+        print(f" --> Max em {key:22s} = {value};")
 
     if prices:
         # Printa as colunas dos preços

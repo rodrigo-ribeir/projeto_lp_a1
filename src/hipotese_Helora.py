@@ -130,7 +130,7 @@ if __name__ == "__main__":
     with open('../data/dataframes/solana_values.md', "w", encoding='utf-8') as archive:
         df_solana.tail(5).to_markdown(archive, index=False)
     
-    df_agrupate1 = at.agrupate_datasets(df_bitcoin, df_solana, "btc", "sol")
+    df_agrupate1 = at.agrupate_datasets(df_bitcoin.copy(), df_solana, "btc", "sol")
     df_agrupate2 = at.agrupate_datasets(df_bitcoin, df_ethereum, "btc", "eth")
     
     with open('../data/dataframes/bitcoin_x_solana.md', "w", encoding='utf-8') as archive:
@@ -138,4 +138,8 @@ if __name__ == "__main__":
 
     with open('../data/dataframes/bitcoin_x_ethereum.md', "w", encoding='utf-8') as archive:
         df_agrupate2.tail(5).to_markdown(archive, index=False)
-    
+
+    T_s, F_s = qtd_same_sign(df_agrupate1, ['Change % btc', 'Change % sol'])
+    print(f"Mesmas mudanças: {T_s}, Mudanças opostas: {F_s}")
+    T_e, F_e = qtd_same_sign(df_agrupate2, ['Change % btc', 'Change % eth'])
+    print(f"Mesmas mudanças: {T_e}, Mudanças opostas: {F_e}")
