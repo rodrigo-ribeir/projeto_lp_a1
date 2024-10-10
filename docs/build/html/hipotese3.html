@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Projeto LP A1 documentation &#8212; Projeto LP A1 1.0.0 documentation</title>
+    <title>Hipótese: Quanto tempo após o halving ocorre o preço máximo no Bitcoin em cada ciclo? &#8212; Projeto LP A1 1.0.0 documentation</title>
   
   
   
@@ -40,10 +40,11 @@
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hipotese3';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Hipotese 1 : Ethereum ou Solana: qual será mais utilizada?" href="Hipotese1.html" />
+    <link rel="next" title="Dados utilizados no projeto" href="Download.html" />
+    <link rel="prev" title="Hipotese 1 : Ethereum ou Solana: qual será mais utilizada?" href="Hipotese1.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -106,8 +107,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -126,7 +125,7 @@
     
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="index.html">
   
   
   
@@ -150,10 +149,9 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hipotese1.html">Hipotese 1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hipotese2.html">Hipotese 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hipotese3.html">Hipotese 3</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Hipotese 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Download.html">Dados utilizados no projeto</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Códigos</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="analise_temporal.html">analise_temporal module</a></li>
@@ -216,7 +214,7 @@
       
       
       
-      <li><a href="_sources/index.rst" target="_blank"
+      <li><a href="_sources/hipotese3.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -287,7 +285,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -298,11 +298,31 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Projeto LP A1 documentation</h1>
+    <h1>Hipótese: Quanto tempo após o halving ocorre o preço máximo no Bitcoin em cada ciclo?</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introducao">Introdução</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos">Objetivos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametros">Parâmetros</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#desafios">Desafios</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliotecas-utilizadas">Bibliotecas utilizadas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resultado">Resultado</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ciclo-1">Ciclo 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ciclo-2">Ciclo 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ciclo-3">Ciclo 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao">Conclusão</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquivos-utilizados">Arquivos utilizados</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -312,30 +332,71 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="projeto-lp-a1-documentation">
-<h1>Projeto LP A1 documentation<a class="headerlink" href="#projeto-lp-a1-documentation" title="Link to this heading">#</a></h1>
-<p>Trabalho realizado com dados retirados do site <a class="reference external" href="https://www.investing.com/">Investing</a>.</p>
-<p>O mercado das criptomoedas é um mercado na mira de muitos investidores e
-de pessoas que possuem interesse em começar a investir em ativos na
-internet. Mas esse mercado sofre muita flutuações devido à sua sensibilidade
-a diversos tipos de acontecimentos a sua e volatilidade e à influência de
-algumas criptomoedas que são mais relevantes atualmente do que outras. Tendo
-isso em mente, neste trabalho analisaremos algumas hipóteses sobre algumas
-criptomoedas específicas, sendo elas:</p>
+  <section id="hipotese-quanto-tempo-apos-o-halving-ocorre-o-preco-maximo-no-bitcoin-em-cada-ciclo">
+<h1>Hipótese: Quanto tempo após o halving ocorre o preço máximo no Bitcoin em cada ciclo?<a class="headerlink" href="#hipotese-quanto-tempo-apos-o-halving-ocorre-o-preco-maximo-no-bitcoin-em-cada-ciclo" title="Link to this heading">#</a></h1>
+<section id="introducao">
+<h2>Introdução<a class="headerlink" href="#introducao" title="Link to this heading">#</a></h2>
+<p>O Bitcoin passou por vários eventos de halving, que são momentos em que a recompensa por minerar novos blocos é reduzida pela metade acarretando em uma maior exposição na mídia, mudanças na oferta e demanada, e outros aspectos que acarretam na variação do preço deste criptoativo. Este relatório analisa quanto tempo após cada halving ocorre o preço máximo do Bitcoin, utilizando dados históricos de preços e o conceito de aumento percentual em relação ao preço inicial.</p>
+</section>
+<section id="objetivos">
+<h2>Objetivos<a class="headerlink" href="#objetivos" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.investing.com/crypto/bitcoin/historical-data">Bitcoin</a>;</p></li>
-<li><p><a class="reference external" href="https://www.investing.com/crypto/ethereum/historical-data">Ethereum</a>;</p></li>
-<li><p><a class="reference external" href="https://www.investing.com/crypto/solana/historical-data">Solana</a>;</p></li>
+<li><p>Determinar o número de dias após cada halving em que o preço do Bitcoin atinge seu valor máximo.</p></li>
+<li><p>Normalizar os ciclos de aumento percentual do preço após cada halving.</p></li>
 </ul>
-<p>As hipóteses sobres estas criptomoedas estão listadas abaixo:</p>
-<ol class="arabic simple">
-<li><p><strong>Ethereum ou Solana: Qual será mais utilizada no futuro?</strong></p></li>
-<li><p><strong>Influência do Bitcoin: As variações no preço do Bitcoin influenciam no valor
-das outras moedas?</strong></p></li>
-<li><p><strong>Halving do Bitcoin: Quanto tempo depois ocorrem os picos de preço?</strong></p></li>
-</ol>
-<div class="toctree-wrapper compound">
-</div>
+</section>
+<section id="parametros">
+<h2>Parâmetros<a class="headerlink" href="#parametros" title="Link to this heading">#</a></h2>
+<p>Conjunto de dados retirado de <a class="reference external" href="https://www.investing.com/crypto/bitcoin/historical-data">https://www.investing.com/crypto/bitcoin/historical-data</a></p>
+</section>
+<section id="desafios">
+<h2>Desafios<a class="headerlink" href="#desafios" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Leitura, filtro e limpeza do DataFrame de modo que o código continue sendo funcional para análises futuras.</p></li>
+<li><p>Compartimentação do DataFrame em três períodos correspondentes aos três ciclos entre halvings a serem analizados.</p></li>
+<li><p>Normalização da coluna “Price” tendo em vista que objetivo do projeto é realizar uma comparação eficiente sobre o crescimento relativo dentre cada período.</p></li>
+<li><p>Junção dos três ciclos no DataFrame final para serem plotados no mesmo gráfico.</p></li>
+</ul>
+</section>
+<section id="bibliotecas-utilizadas">
+<h2>Bibliotecas utilizadas<a class="headerlink" href="#bibliotecas-utilizadas" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>NumPy</p></li>
+<li><p>Pandas</p></li>
+<li><p>Matplotlib</p></li>
+</ul>
+</section>
+<section id="resultado">
+<h2>Resultado<a class="headerlink" href="#resultado" title="Link to this heading">#</a></h2>
+<img alt="_images/halving.png" src="_images/halving.png" />
+<p>Os dias correspondentes ao preço máximo após cada halving foram obtidos e representados no gráfico. As linhas verticais destacam os pontos de máximo para cada ciclo.</p>
+<section id="ciclo-1">
+<h3>Ciclo 1<a class="headerlink" href="#ciclo-1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Dias após halving para o preço máximo: 360 dias</p></li>
+</ul>
+</section>
+<section id="ciclo-2">
+<h3>Ciclo 2<a class="headerlink" href="#ciclo-2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Dias após halving para o preço máximo: 510 dias</p></li>
+</ul>
+</section>
+<section id="ciclo-3">
+<h3>Ciclo 3<a class="headerlink" href="#ciclo-3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Dias após halving para o preço máximo: 1400 dias</p></li>
+</ul>
+</section>
+</section>
+<section id="conclusao">
+<h2>Conclusão<a class="headerlink" href="#conclusao" title="Link to this heading">#</a></h2>
+<p>Como observado no gráfico, os preços máximos nos ciclos 1 e 2 ficaram entre 300 e 550 dias após o halving e no ciclo 3: 1400 dias após o terceiro halving, ou seja, em um momento bem distante. Entretando, tal ciclo apresentou duas grandes altas - semelhantes ao seu máximo - por volta dos 350 e 600 dias. Portanto pela análise feita, este é o período em que o bitcoin costuma ter o seu valor maximizado geralmente salvo algumas exceções.</p>
+</section>
+<section id="arquivos-utilizados">
+<h2>Arquivos utilizados<a class="headerlink" href="#arquivos-utilizados" title="Link to this heading">#</a></h2>
+<p>Para rodar o código deve haver o DataFrame “Bitcoin Historical Data.csv” dentro da pasta data e as bibliotecas descritas acima devem estar instaladas.</p>
+</section>
 </section>
 
 
@@ -349,12 +410,21 @@ das outras moedas?</strong></p></li>
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="right-next"
+    <a class="left-prev"
        href="Hipotese1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Hipotese 1 : Ethereum ou Solana: qual será mais utilizada?</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Download.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Hipotese 1 : Ethereum ou Solana: qual será mais utilizada?</p>
+        <p class="prev-next-title">Dados utilizados no projeto</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -364,6 +434,33 @@ das outras moedas?</strong></p></li>
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introducao">Introdução</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos">Objetivos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametros">Parâmetros</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#desafios">Desafios</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliotecas-utilizadas">Bibliotecas utilizadas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resultado">Resultado</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ciclo-1">Ciclo 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ciclo-2">Ciclo 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ciclo-3">Ciclo 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusao">Conclusão</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquivos-utilizados">Arquivos utilizados</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
