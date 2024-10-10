@@ -140,29 +140,27 @@ def converter_dados(df: pd.DataFrame) -> pd.DataFrame:
     '''
     Função que formata as diferentes colunas contidas no
     dataframe utilizado como padrão.
+
+    - A função formata as seguintes colunas se presentes no dataframe passado:
+        - `Date` - `Price` - `High` - `Low` - `Vol.` - `Change %`
     
-    Dados
-    -----
-    A função formata as seguintes colunas se presentes
-    no dataframe passado
-       - `Date`; `Price`; `High`; `Low`; `Vol.`; `Change %`
+    - Formatações realizadas em cada coluna
+        - `Date`:
+            Transforma a string em um objeto datetime do pandas
 
-    Formatações
-    -----------
-    - `Date`:
-        - Transforma a string em um objeto datetime do pandas
-
-    - `Open` / `Price` / `High` / `Low`:
-        - Remove as vírgulas e converte os valores para números.
-    - `Vol.`:
-        - Células vazias são preenchidas com 0 e transforma os
-        valores em números (Substituindo 'K' por uma multiplicação em 
-        ordem {10^3}, 'M' por uma multiplicação em ordem {10^6} e 'B'
-        por uma multiplicação em ordem de {10^9})
-    - `Change`:
-        - Remove o símbolo de porcentagem e transforma os
-        valores em sua representação decimal entre 0 e 1 
-        (mantendo o sinal).
+        - `Open` / `Price` / `High` / `Low`:
+            Remove as vírgulas e converte os valores para números.
+        
+        - `Vol.`:
+            Células vazias são preenchidas com 0 e transforma os
+            valores em números (Substituindo `K` por uma multiplicação em 
+            ordem {10^3}, `M` por uma multiplicação em ordem {10^6} e `B`
+            por uma multiplicação em ordem de {10^9})
+        
+        - `Change`:
+            Remove o símbolo de porcentagem e transforma os
+            valores em sua representação decimal entre 0 e 1 
+            (mantendo o sinal).
     '''
     def format_vol(celula: str):
         if (pd.isna(celula)):

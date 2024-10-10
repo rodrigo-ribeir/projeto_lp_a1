@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>src &#8212; Projeto LP A1 1.0.0 documentation</title>
+    <title>Códigos utilizados &#8212; Projeto LP A1 1.0.0 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="analise_temporal module" href="analise_temporal.html" />
-    <link rel="prev" title="Projeto LP A1 documentation" href="index.html" />
+    <link rel="prev" title="Dados utilizados no projeto" href="Download.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -148,12 +148,16 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">src</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hipotese1.html">Hipotese 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hipotese3.html">Hipotese 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Download.html">Dados utilizados no projeto</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Códigos</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="analise_temporal.html">analise_temporal module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basics.html">basics module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hipotese_Jean.html">hipotese_Jean module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html">hipotese_Rodrigo module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -281,7 +285,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -292,11 +298,21 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>src</h1>
+    <h1>Códigos utilizados</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-temporal">Analise Temporal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basics">Basics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hipotese-jean">Hipotese Jean</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -306,15 +322,39 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="src">
-<h1>src<a class="headerlink" href="#src" title="Link to this heading">#</a></h1>
+  <section id="codigos-utilizados">
+<h1>Códigos utilizados<a class="headerlink" href="#codigos-utilizados" title="Link to this heading">#</a></h1>
+<p>Segue abaixo uma breve descrição de cada arquivo de códigos</p>
+<section id="analise-temporal">
+<h2><a class="reference internal" href="#analise-temporal">Analise Temporal</a><a class="headerlink" href="#analise-temporal" title="Link to this heading">#</a></h2>
+<p>Funções criadas para a análise das criptomoedas ao longo do tempo que
+trabalham de maneira semelhante e conversam entre si (Entradas e saídas
+relacionadas). Além de funções diretamente relacionadas a datas, como
+<em>agrupate_dates()</em>, contém também funções que trabalham e formatam com os
+dados dos dataframes, como <em>normalize_value_columns()</em>, que frequentemente
+foram utilizadas em um mesmo contexto</p>
+</section>
+<section id="basics">
+<h2><a class="reference internal" href="#basics">Basics</a><a class="headerlink" href="#basics" title="Link to this heading">#</a></h2>
+<p>Funções criadas para um contexto geral, com funções básicas para serem
+utilizadas em diversos contextos, como <em>read_data()</em> que apenas realizado
+a tarefa de abrir o arquivo passado.</p>
+</section>
+<section id="hipotese-jean">
+<h2><a class="reference internal" href="#hipotese-jean">Hipotese Jean</a><a class="headerlink" href="#hipotese-jean" title="Link to this heading">#</a></h2>
+<p>Esse corpo de código foi criado com o intuito de trabalhar com os dataframes
+e responder a primeira hipótese: <strong>Ethereum ou Solana? Qual das duas será mais
+utilizada no futuro</strong></p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="analise_temporal.html">analise_temporal module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="analise_temporal.html#src.analise_temporal.agrupate_datasets"><code class="docutils literal notranslate"><span class="pre">agrupate_datasets()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="analise_temporal.html#src.analise_temporal.agrupate_dates"><code class="docutils literal notranslate"><span class="pre">agrupate_dates()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="analise_temporal.html#src.analise_temporal.ask_period"><code class="docutils literal notranslate"><span class="pre">ask_period()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analise_temporal.html#src.analise_temporal.column_volume_times_value"><code class="docutils literal notranslate"><span class="pre">column_volume_times_value()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analise_temporal.html#src.analise_temporal.each_column_max"><code class="docutils literal notranslate"><span class="pre">each_column_max()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="analise_temporal.html#src.analise_temporal.normalize_value_columns"><code class="docutils literal notranslate"><span class="pre">normalize_value_columns()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="analise_temporal.html#src.analise_temporal.recent_data"><code class="docutils literal notranslate"><span class="pre">recent_data()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="analise_temporal.html#src.analise_temporal.rename_columns"><code class="docutils literal notranslate"><span class="pre">rename_columns()</span></code></a></li>
 </ul>
 </li>
@@ -325,9 +365,29 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="basics.html#src.basics.read_data"><code class="docutils literal notranslate"><span class="pre">read_data()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="hipotese_Jean.html">hipotese_Jean module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hipotese_Jean.html">hipotese_Jean module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Jean.html#src.hipotese_Jean.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hipotese_Rodrigo.html">hipotese_Rodrigo module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.adicionar_coluna"><code class="docutils literal notranslate"><span class="pre">adicionar_coluna()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.alterando_nome_e_indice"><code class="docutils literal notranslate"><span class="pre">alterando_nome_e_indice()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.aumento_percentual"><code class="docutils literal notranslate"><span class="pre">aumento_percentual()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.converter_dados"><code class="docutils literal notranslate"><span class="pre">converter_dados()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.dias_apos_halving"><code class="docutils literal notranslate"><span class="pre">dias_apos_halving()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.divisao_por_data"><code class="docutils literal notranslate"><span class="pre">divisao_por_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.filtrar_colunas"><code class="docutils literal notranslate"><span class="pre">filtrar_colunas()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.indices_max_e_min"><code class="docutils literal notranslate"><span class="pre">indices_max_e_min()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.ler_arquivo"><code class="docutils literal notranslate"><span class="pre">ler_arquivo()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.maior_serie"><code class="docutils literal notranslate"><span class="pre">maior_serie()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.normalizar_ciclos_por_preco_maximo"><code class="docutils literal notranslate"><span class="pre">normalizar_ciclos_por_preco_maximo()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.ordenando_indices"><code class="docutils literal notranslate"><span class="pre">ordenando_indices()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html#src.hipotese_Rodrigo.verificar_dados_faltando"><code class="docutils literal notranslate"><span class="pre">verificar_dados_faltando()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
+</section>
 </section>
 
 
@@ -342,12 +402,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="index.html"
+       href="Download.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Projeto LP A1 documentation</p>
+        <p class="prev-next-title">Dados utilizados no projeto</p>
       </div>
     </a>
     <a class="right-next"
@@ -365,6 +425,23 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analise-temporal">Analise Temporal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basics">Basics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hipotese-jean">Hipotese Jean</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -44,7 +44,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="basics module" href="basics.html" />
-    <link rel="prev" title="src" href="modules.html" />
+    <link rel="prev" title="Códigos utilizados" href="modules.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -148,12 +148,16 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">src</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hipotese1.html">Hipotese 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hipotese3.html">Hipotese 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Download.html">Dados utilizados no projeto</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">Códigos</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">analise_temporal module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basics.html">basics module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hipotese_Jean.html">hipotese_Jean module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hipotese_Rodrigo.html">hipotese_Rodrigo module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -307,7 +311,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.agrupate_datasets"><code class="docutils literal notranslate"><span class="pre">agrupate_datasets()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.agrupate_dates"><code class="docutils literal notranslate"><span class="pre">agrupate_dates()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.ask_period"><code class="docutils literal notranslate"><span class="pre">ask_period()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.column_volume_times_value"><code class="docutils literal notranslate"><span class="pre">column_volume_times_value()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.each_column_max"><code class="docutils literal notranslate"><span class="pre">each_column_max()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.normalize_value_columns"><code class="docutils literal notranslate"><span class="pre">normalize_value_columns()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.recent_data"><code class="docutils literal notranslate"><span class="pre">recent_data()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.rename_columns"><code class="docutils literal notranslate"><span class="pre">rename_columns()</span></code></a></li>
 </ul>
             </nav>
@@ -404,6 +411,45 @@ de período escolhido.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="src.analise_temporal.column_volume_times_value">
+<span class="sig-prename descclassname"><span class="pre">src.analise_temporal.</span></span><span class="sig-name descname"><span class="pre">column_volume_times_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.analise_temporal.column_volume_times_value" title="Link to this definition">#</a></dt>
+<dd><p>Função cria uma nova coluna no dataframe que
+contém o resultado da multiplicação do volume
+pelo preço de cada criptomoeda, gerando uma
+visualização da relação do valor total em
+circulação de cada criptomoeda naquele período</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – DataFrame a ser adicionada a nova coluna.
+É importante notar que o DataFrame deve
+conter as colunas <cite>Price</cite> e <cite>Vol.</cite> de
+ambas criptomoedas e na mesma ordem.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.analise_temporal.each_column_max">
+<span class="sig-prename descclassname"><span class="pre">src.analise_temporal.</span></span><span class="sig-name descname"><span class="pre">each_column_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#src.analise_temporal.each_column_max" title="Link to this definition">#</a></dt>
+<dd><p>Função que retorna o valor máximo de cada coluna
+(com exceção de colunas com <cite>Date</cite> no nome) no
+formato de um dicionário.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – DataFrame contendo as colunas a serem analisadas</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dicionário cujas chaves são os nomes das colunas
+analisadas e os valores são o maior valor daquela
+coluna</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="src.analise_temporal.normalize_value_columns">
 <span class="sig-prename descclassname"><span class="pre">src.analise_temporal.</span></span><span class="sig-name descname"><span class="pre">normalize_value_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.analise_temporal.normalize_value_columns" title="Link to this definition">#</a></dt>
 <dd><p>Normaliza os valores de todas as colunas que não
@@ -414,6 +460,28 @@ cada valor dessas colunas pelo seu máximo.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – Dataframe com as colunas a serem normalizadas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.analise_temporal.recent_data">
+<span class="sig-prename descclassname"><span class="pre">src.analise_temporal.</span></span><span class="sig-name descname"><span class="pre">recent_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.analise_temporal.recent_data" title="Link to this definition">#</a></dt>
+<dd><p>Função criada para pegar o intervalo do número de
+dias passado como parâmetro mais recente.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – O dataframe a ser coletado o intervalo de dias</p></li>
+<li><p><strong>dias</strong> (<em>int</em>) – O número de dias anteriores ao último dado que
+devem ser inclusos na análise</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Retorna o dataframe no intervalo solicitado</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.Dataframe</p>
 </dd>
 </dl>
 </dd></dl>
@@ -455,7 +523,7 @@ a palavra <cite>Date</cite> no nome, ela não é renomeada.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">src</p>
+        <p class="prev-next-title">Códigos utilizados</p>
       </div>
     </a>
     <a class="right-next"
@@ -486,7 +554,10 @@ a palavra <cite>Date</cite> no nome, ela não é renomeada.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.agrupate_datasets"><code class="docutils literal notranslate"><span class="pre">agrupate_datasets()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.agrupate_dates"><code class="docutils literal notranslate"><span class="pre">agrupate_dates()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.ask_period"><code class="docutils literal notranslate"><span class="pre">ask_period()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.column_volume_times_value"><code class="docutils literal notranslate"><span class="pre">column_volume_times_value()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.each_column_max"><code class="docutils literal notranslate"><span class="pre">each_column_max()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.normalize_value_columns"><code class="docutils literal notranslate"><span class="pre">normalize_value_columns()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.recent_data"><code class="docutils literal notranslate"><span class="pre">recent_data()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#src.analise_temporal.rename_columns"><code class="docutils literal notranslate"><span class="pre">rename_columns()</span></code></a></li>
 </ul>
   </nav></div>

@@ -9,6 +9,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath("../.."))
+sys.path.insert(0, os.path.abspath("../../src"))
 
 project = 'Projeto LP A1'
 copyright = '2024, Helora Kelly, Rodrigo Ribeiro e Jean Gabriel'
@@ -18,7 +19,12 @@ release = '1.0.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx_book_theme']
+extensions = [
+    'sphinx.ext.autodoc', 
+    'sphinx.ext.napoleon', 
+    'sphinx_book_theme', 
+    'myst_parser'
+    ]
 napoleon_numpy_docstring = True
 
 templates_path = ['_templates']
@@ -30,4 +36,4 @@ exclude_patterns = []
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_book_theme'
-html_static_path = ['_static']
+html_static_path = []
